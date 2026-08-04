@@ -1,17 +1,17 @@
 import 'package:injectable/injectable.dart';
 import 'package:signica/core/exceptions/result.dart';
-import 'package:signica/features/main/data/services/document_acquisition_service.dart';
 import 'package:signica/features/main/domain/entities/document.dart';
 import 'package:signica/features/main/domain/interactors/main_interactor.dart';
 import 'package:signica/features/main/domain/repositories/main_repository.dart';
+import 'package:signica/features/main/domain/services/document_acquisition.dart';
 import 'package:signica/features/main/domain/utils/unique_document_name.dart';
 
 @LazySingleton(as: MainInteractor)
 class MainInteractorImpl implements MainInteractor {
-  MainInteractorImpl(this._mainRepository, this._acquisitionService);
+  MainInteractorImpl(this._mainRepository, this._acquisition);
 
   final MainRepository _mainRepository;
-  final DocumentAcquisitionService _acquisitionService;
+  final DocumentAcquisition _acquisition;
 
   @override
   Stream<List<Document>> watchDocuments() => _mainRepository.watchDocuments();
@@ -23,7 +23,7 @@ class MainInteractorImpl implements MainInteractor {
   @override
   Future<Result<Document?>> addFromFiles() {
     return Result.asyncHandle(() async {
-      final acquired = await _acquisitionService.pickPdfFile();
+      final acquired = await _acquisition.pickPdfFile();
       return _persistAcquired(acquired);
     });
   }
@@ -31,7 +31,7 @@ class MainInteractorImpl implements MainInteractor {
   @override
   Future<Result<Document?>> addFromPhotos() {
     return Result.asyncHandle(() async {
-      final acquired = await _acquisitionService.pickPhotos();
+      final acquired = await _acquisition.pickPhotos();
       return _persistAcquired(acquired);
     });
   }
@@ -39,7 +39,7 @@ class MainInteractorImpl implements MainInteractor {
   @override
   Future<Result<Document?>> addFromScanner() {
     return Result.asyncHandle(() async {
-      final acquired = await _acquisitionService.scanDocument();
+      final acquired = await _acquisition.scanDocument();
       return _persistAcquired(acquired);
     });
   }

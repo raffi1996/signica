@@ -26,42 +26,33 @@ class SignicaDocumentCard extends StatelessWidget {
 
   static final _dateFormat = DateFormat('dd.MM.yyyy', 'en');
 
-  // --- Figma: document preview sheet ---
   static const double sheetWidth = 123.72;
   static const double sheetHeight = 167.84;
   static const double sheetRadius = 12;
   static const double sheetBorderWidth = 1;
-  static const Color sheetBorderColor = Color(0x96DADADA); // #DADADA @ 59%
+  static const Color sheetBorderColor = Color(0x96DADADA);
   static const Offset sheetShadowOffset = Offset(0, 4);
   static const double sheetShadowBlur = 11.1;
   static const double sheetShadowSpread = 0;
-  static const Color sheetShadowColor = Color(0x14000000); // #000000 @ 8%
+  static const Color sheetShadowColor = Color(0x14000000);
 
-  // --- Figma: multi-page stack (fan) ---
-  // Both back sheets rotate counter-clockwise; front tilts slightly clockwise.
   static const double backSheetAngleDeg = -6;
   static const double middleSheetAngleDeg = -3;
   static const double frontSheetAngleDeg = 3;
   static const Offset backSheetOffset = Offset(-4, 0);
   static const Offset middleSheetOffset = Offset(-1.5, 0);
 
-  /// Bounding box for the sheet stack (rotation + shadow + fan offsets).
   static const double stackWidth = 152;
   static const double stackHeight = 192;
 
-  // --- Figma: typography spacing ---
   static const double previewTitleSpacing = 12;
   static const double titleDateSpacing = 2;
   static const Color documentDateColor = Color(0xFF999999);
 
   static const double signatureSize = 42;
 
-  /// Card height used by the documents grid aspect ratio.
-  static const double cardContentHeight = stackHeight +
-      previewTitleSpacing +
-      40 + // title: 2 lines × 16 × 1.25
-      titleDateSpacing +
-      16; // date: 13 × 1.2
+  static const double cardContentHeight =
+      stackHeight + previewTitleSpacing + 40 + titleDateSpacing + 16;
 
   @override
   Widget build(BuildContext context) {
@@ -163,8 +154,7 @@ class _DocumentStack extends StatelessWidget {
               bottom: 8,
               child: _SignedBadge(),
             ),
-          if (selectionMode)
-            DocumentSelectionOverlay(isSelected: isSelected),
+          if (selectionMode) DocumentSelectionOverlay(isSelected: isSelected),
         ],
       ),
     );
@@ -207,7 +197,8 @@ class _Sheet extends StatelessWidget {
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(
-          SignicaDocumentCard.sheetRadius - SignicaDocumentCard.sheetBorderWidth,
+          SignicaDocumentCard.sheetRadius -
+              SignicaDocumentCard.sheetBorderWidth,
         ),
         child: ColoredBox(
           color: Palette.white,

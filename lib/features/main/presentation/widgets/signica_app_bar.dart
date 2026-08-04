@@ -29,12 +29,12 @@ class SignicaAppBar extends StatelessWidget implements PreferredSizeWidget {
       title: hideLogo
           ? const SizedBox.shrink()
           : Assets.signicaLogo.svg(height: appBarLogoHeight),
-      actions: [
+      actions: const [
         SizedBox(width: moreButtonAppBarActionWidth),
       ],
     );
   }
 
   @override
-  Size get preferredSize => Size.fromHeight(appBarToolbarHeight);
+  Size get preferredSize => const Size.fromHeight(appBarToolbarHeight);
 }

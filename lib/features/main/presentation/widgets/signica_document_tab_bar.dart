@@ -1,12 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:signica/core/theme/themes.dart';
-
-enum SignicaDocumentTab {
-  all,
-  signed,
-  unsigned,
-}
+import 'package:signica/features/main/presentation/models/signica_document_tab.dart';
 
 class SignicaDocumentTabBar extends StatelessWidget {
   const SignicaDocumentTabBar({

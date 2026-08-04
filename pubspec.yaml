@@ -11,46 +11,33 @@ dependencies:
   flutter:
     sdk: flutter
 
-  cupertino_icons: ^1.0.8
-
-  #UI
   liquid_glass_widgets: ^0.29.1
 
-  #State management
   bloc: ^9.1.0
   flutter_bloc: ^9.1.1
   equatable: ^2.1.0
 
-  #Navigation
   auto_route: ^11.1.0
 
-  #DI
   get_it: ^9.2.0
   injectable: ^2.7.1
 
-  #Local database
   drift: ^2.34.3
   drift_flutter: ^0.3.1
 
-  #Localization
   easy_localization: ^3.0.8
   intl: ^0.20.2
 
-  #Document acquisition
   file_picker: ^11.0.3
   image_picker: ^1.2.3
   cunning_document_scanner: ^2.8.0
-  permission_handler: ^12.0.3
 
-  #PDF & images
   pdf: ^3.13.0
   pdfrx: ^2.4.7
-  flutter_image_compress: ^2.5.1
   path_provider: ^2.1.6
   path: ^1.9.1
   uuid: ^4.6.0
 
-  #Document actions
   printing: ^5.15.0
   share_plus: ^12.0.0
   flutter_svg: ^2.3.0
@@ -61,13 +48,11 @@ dev_dependencies:
 
   flutter_lints: ^6.0.0
 
-  #Code generation
   build_runner: ^2.10.4
   drift_dev: ^2.34.0
   injectable_generator: ^2.9.1
   auto_route_generator: ^10.5.0
 
-  #Testing
   bloc_test: ^10.0.0
   mocktail: ^1.0.5
 

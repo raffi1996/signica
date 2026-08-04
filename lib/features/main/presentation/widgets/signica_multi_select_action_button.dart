@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:liquid_glass_widgets/liquid_glass_widgets.dart';
 import 'package:signica/core/theme/themes.dart';
 
-/// Floating glass action button used in multi-select mode (Delete / Share).
 class SignicaMultiSelectActionButton extends StatelessWidget {
   const SignicaMultiSelectActionButton({
     required this.icon,

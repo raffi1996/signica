@@ -3,10 +3,6 @@ import 'package:signica/core/assets/assets.dart';
 import 'package:signica/core/theme/themes.dart';
 import 'package:signica/features/main/presentation/widgets/unselected_checkbox.dart';
 
-/// Centered selection indicator for document preview (Figma multi-select).
-///
-/// Unselected: [UnselectedCheckbox] widget.
-/// Selected: green check circle icon.
 class DocumentSelectionOverlay extends StatelessWidget {
   const DocumentSelectionOverlay({
     required this.isSelected,

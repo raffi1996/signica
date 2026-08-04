@@ -20,6 +20,7 @@ import '../../features/main/domain/interactors/main_interactor.dart' as _i215;
 import '../../features/main/domain/interactors/main_interactor_impl.dart'
     as _i653;
 import '../../features/main/domain/repositories/main_repository.dart' as _i298;
+import '../../features/main/domain/services/document_acquisition.dart' as _i305;
 import '../../features/main/presentation/bloc/main_bloc.dart' as _i1014;
 import '../database/app_database.dart' as _i982;
 import '../navigation/app_router.dart' as _i630;
@@ -35,7 +36,7 @@ extension GetItInjectableX on _i174.GetIt {
     final appModule = _$AppModule();
     gh.singleton<_i630.AppRouter>(() => appModule.appRouter);
     gh.lazySingleton<_i982.AppDatabase>(() => appModule.appDatabase());
-    gh.lazySingleton<_i87.DocumentAcquisitionService>(
+    gh.lazySingleton<_i305.DocumentAcquisition>(
       () => _i87.DocumentAcquisitionService(),
     );
     gh.lazySingleton<_i298.MainRepository>(
@@ -44,7 +45,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i215.MainInteractor>(
       () => _i653.MainInteractorImpl(
         gh<_i298.MainRepository>(),
-        gh<_i87.DocumentAcquisitionService>(),
+        gh<_i305.DocumentAcquisition>(),
       ),
     );
     gh.factory<_i1014.MainBloc>(

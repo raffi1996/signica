@@ -7,7 +7,7 @@ import 'package:signica/core/base/bloc_state_status.dart';
 import 'package:signica/core/exceptions/result.dart';
 import 'package:signica/features/main/domain/entities/document.dart';
 import 'package:signica/features/main/domain/interactors/main_interactor.dart';
-import 'package:signica/features/main/presentation/widgets/signica_document_tab_bar.dart';
+import 'package:signica/features/main/presentation/models/signica_document_tab.dart';
 
 part 'main_event.dart';
 part 'main_state.dart';

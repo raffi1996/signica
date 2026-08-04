@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:ui';
 
 import 'package:easy_localization/easy_localization.dart';
@@ -81,7 +82,7 @@ class _SignicaAddDocumentOverlayState extends State<SignicaAddDocumentOverlay>
       if (!_portalController.isShowing) {
         _portalController.show();
       }
-      _controller.forward(from: 0);
+      unawaited(_controller.forward(from: 0));
     });
   }
 
@@ -255,7 +256,9 @@ class _SignicaAddDocumentOverlayState extends State<SignicaAddDocumentOverlay>
                             ),
                           ),
                         ),
-                        const SizedBox(width: 12,),
+                        const SizedBox(
+                          width: 12,
+                        ),
                         AnimatedBuilder(
                           animation: closeAnimation,
                           builder: (context, child) {

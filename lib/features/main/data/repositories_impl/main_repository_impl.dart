@@ -110,7 +110,7 @@ class MainRepositoryImpl extends BaseRepository implements MainRepository {
       try {
         await dir.delete(recursive: true);
       } on FileSystemException {
-        // Directory may already be partially cleaned; ignore.
+        // Already deleted.
       }
     }
   }

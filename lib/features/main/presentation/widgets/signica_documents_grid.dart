@@ -3,10 +3,11 @@ import 'package:signica/core/theme/themes.dart';
 import 'package:signica/features/main/domain/entities/document.dart';
 import 'package:signica/features/main/presentation/widgets/signica_document_card.dart';
 
-typedef DocumentLongPressCallback = void Function(
-  Document document,
-  Rect cardRect,
-);
+typedef DocumentLongPressCallback =
+    void Function(
+      Document document,
+      Rect cardRect,
+    );
 
 class SignicaDocumentsGrid extends StatelessWidget {
   const SignicaDocumentsGrid({
@@ -40,8 +41,6 @@ class SignicaDocumentsGrid extends StatelessWidget {
         crossAxisCount: 2,
         mainAxisSpacing: marginSizeXLarge,
         crossAxisSpacing: marginSizeMedium,
-        // Cell width on 393pt: (393 - 16*2 - 16) / 2 = 172.5
-        // Card height from Figma sheet + typography spacing.
         childAspectRatio: 172.5 / SignicaDocumentCard.cardContentHeight,
       ),
       itemCount: documents.length,

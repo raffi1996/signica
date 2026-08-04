@@ -1,10 +1,5 @@
 import 'package:path/path.dart' as p;
 
-/// Returns an iOS-style unique display name among [existingNames].
-///
-/// - `Document` → `Document 2` → `Document 3`
-/// - With extension: `Document.pdf` → `Document 2.pdf`
-/// - Fills gaps: given `Document`, `Document 2`, `Document 4` → `Document 3`
 String uniqueDocumentName({
   required String desiredName,
   required Iterable<String> existingNames,

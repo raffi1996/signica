@@ -1,19 +1,17 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:printing/printing.dart';
-import 'package:share_plus/share_plus.dart';
-import 'package:signica/core/assets/assets.dart';
 import 'package:signica/core/di/app_di.dart';
 import 'package:signica/core/navigation/app_router.gr.dart';
 import 'package:signica/core/theme/themes.dart';
 import 'package:signica/features/main/domain/entities/document.dart';
 import 'package:signica/features/main/presentation/bloc/main_bloc.dart';
-import 'package:signica/features/main/presentation/widgets/signica_add_document_fab.dart';
+import 'package:signica/features/main/presentation/models/signica_document_tab.dart';
+import 'package:signica/features/main/presentation/utils/document_share_print.dart';
+import 'package:signica/features/main/presentation/widgets/main_screen_bottom_chrome.dart';
 import 'package:signica/features/main/presentation/widgets/signica_add_document_overlay.dart';
 import 'package:signica/features/main/presentation/widgets/signica_app_bar.dart';
 import 'package:signica/features/main/presentation/widgets/signica_document_actions_overlay.dart';
@@ -21,10 +19,8 @@ import 'package:signica/features/main/presentation/widgets/signica_document_tab_
 import 'package:signica/features/main/presentation/widgets/signica_documents_grid.dart';
 import 'package:signica/features/main/presentation/widgets/signica_empty_documents_view.dart';
 import 'package:signica/features/main/presentation/widgets/signica_more_button.dart';
-import 'package:signica/features/main/presentation/widgets/signica_multi_select_action_button.dart';
 import 'package:signica/features/main/presentation/widgets/signica_multi_select_top_bar.dart';
 import 'package:signica/features/main/presentation/widgets/signica_rounded_body.dart';
-import 'package:signica/features/main/presentation/widgets/signica_search_fab.dart';
 import 'package:signica/features/main/presentation/widgets/signica_search_overlay.dart';
 
 @RoutePage()
@@ -166,93 +162,20 @@ class _MainScreenState extends State<MainScreen> {
   Future<void> _shareSelected(
     BuildContext context,
     List<Document> documents,
-  ) async {
-    if (_selectedIds.isEmpty) {
-      return;
-    }
-
-    final selected = documents
-        .where((doc) => _selectedIds.contains(doc.id))
-        .toList(growable: false);
-
-    final files = <XFile>[];
-    for (final document in selected) {
-      final file = File(document.pdfPath);
-      if (await file.exists()) {
-        files.add(XFile(document.pdfPath, name: '${document.name}.pdf'));
-      }
-    }
-
-    if (!context.mounted) {
-      return;
-    }
-
-    if (files.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('main.multi_select.share_unavailable'.tr())),
-      );
-      return;
-    }
-
-    final box = context.findRenderObject() as RenderBox?;
-    final origin = box == null
-        ? null
-        : box.localToGlobal(Offset.zero) & box.size;
-
-    await SharePlus.instance.share(
-      ShareParams(
-        files: files,
-        sharePositionOrigin: origin,
-      ),
+  ) {
+    return shareSelectedDocuments(
+      context: context,
+      documents: documents,
+      selectedIds: _selectedIds,
     );
   }
 
-  Future<void> _printDocument(BuildContext context, Document document) async {
-    final file = File(document.pdfPath);
-    if (!await file.exists()) {
-      if (!context.mounted) {
-        return;
-      }
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('main.document_actions.print_unavailable'.tr())),
-      );
-      return;
-    }
-
-    final bytes = await file.readAsBytes();
-    await Printing.layoutPdf(
-      onLayout: (_) async => bytes,
-      name: document.name,
-    );
+  Future<void> _printDocument(BuildContext context, Document document) {
+    return printDocument(context: context, document: document);
   }
 
-  Future<void> _shareDocument(BuildContext context, Document document) async {
-    final file = File(document.pdfPath);
-    if (!await file.exists()) {
-      if (!context.mounted) {
-        return;
-      }
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('main.document_actions.share_unavailable'.tr())),
-      );
-      return;
-    }
-
-    if (!context.mounted) {
-      return;
-    }
-
-    final box = context.findRenderObject() as RenderBox?;
-    final origin = box == null
-        ? null
-        : box.localToGlobal(Offset.zero) & box.size;
-
-    await SharePlus.instance.share(
-      ShareParams(
-        files: [XFile(document.pdfPath, name: '${document.name}.pdf')],
-        sharePositionOrigin: origin,
-      ),
-    );
+  Future<void> _shareDocument(BuildContext context, Document document) {
+    return shareDocument(context: context, document: document);
   }
 
   void _deleteDocument(BuildContext context, Document document) {
@@ -324,8 +247,7 @@ class _MainScreenState extends State<MainScreen> {
                                     current.documents.isEmpty &&
                                     _isSelectionMode),
                             listener: (context, state) {
-                              if (state.documents.isEmpty &&
-                                  _isSelectionMode) {
+                              if (state.documents.isEmpty && _isSelectionMode) {
                                 _exitSelectionMode();
                               }
                               final message = state.errorMessage;
@@ -404,7 +326,8 @@ class _MainScreenState extends State<MainScreen> {
                       final selectedVisibleCount = _selectedIds
                           .where(visibleIds.contains)
                           .length;
-                      final allSelected = visibleIds.isNotEmpty &&
+                      final allSelected =
+                          visibleIds.isNotEmpty &&
                           selectedVisibleCount == visibleIds.length;
                       return SignicaMultiSelectTopBar(
                         selectedCount: selectedVisibleCount,
@@ -458,89 +381,19 @@ class _MainScreenState extends State<MainScreen> {
                       unawaited(_printDocument(context, document)),
                   onShareTap: (document) =>
                       unawaited(_shareDocument(context, document)),
-                  onDeleteTap: (document) =>
-                      _deleteDocument(context, document),
+                  onDeleteTap: (document) => _deleteDocument(context, document),
                 ),
-                if (_isSelectionMode) ...[
-                  Positioned(
-                    left: marginSizeMedium,
-                    bottom: mainFabBottomInset(context),
-                    child: SignicaMultiSelectActionButton(
-                      enabled: _selectedIds.isNotEmpty,
-                      label: 'main.multi_select.delete'.tr(),
-                      onTap: () => _deleteSelected(context),
-                      icon: Assets.deleteIcon.svg(
-                        width: multiSelectActionIconSize,
-                        height: multiSelectActionIconSize,
-                        color: _selectedIds.isEmpty
-                            ? Palette.multiSelectActionDisabled
-                            : Palette.coral,
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    right: marginSizeMedium,
-                    bottom: mainFabBottomInset(context),
-                    child: BlocBuilder<MainBloc, MainState>(
-                      builder: (context, state) {
-                        return SignicaMultiSelectActionButton(
-                          enabled: _selectedIds.isNotEmpty,
-                          label: 'main.multi_select.share'.tr(),
-                          onTap: () =>
-                              _shareSelected(context, state.documents),
-                          icon: Assets.shareIcon.svg(
-                            width: multiSelectActionIconSize,
-                            height: multiSelectActionIconSize,
-                            color: _selectedIds.isEmpty
-                                ? Palette.multiSelectActionDisabled
-                                : Palette.menuTextColor,
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                ] else ...[
-                  Positioned(
-                    left: marginSizeMedium,
-                    bottom: mainFabBottomInset(context),
-                    child: IgnorePointer(
-                      ignoring: _areFabsHidden,
-                      child: AnimatedOpacity(
-                        opacity: _areFabsHidden ? 0 : 1,
-                        duration: fabTransitionDuration,
-                        curve: Curves.easeOutCubic,
-                        child: AnimatedScale(
-                          scale: _areFabsHidden ? 0.9 : 1,
-                          duration: fabTransitionDuration,
-                          curve: Curves.easeOutCubic,
-                          child: SignicaSearchFab(
-                            onTap: _openSearchOverlay,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    right: marginSizeMedium,
-                    bottom: mainFabBottomInset(context),
-                    child: IgnorePointer(
-                      ignoring: _areFabsHidden,
-                      child: AnimatedOpacity(
-                        opacity: _areFabsHidden ? 0 : 1,
-                        duration: fabTransitionDuration,
-                        curve: Curves.easeOutCubic,
-                        child: AnimatedScale(
-                          scale: _areFabsHidden ? 0.9 : 1,
-                          duration: fabTransitionDuration,
-                          curve: Curves.easeOutCubic,
-                          child: SignicaAddDocumentFab(
-                            onTap: _openAddDocumentOverlay,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+                MainScreenBottomChrome(
+                  isSelectionMode: _isSelectionMode,
+                  areFabsHidden: _areFabsHidden,
+                  fabTransitionDuration: fabTransitionDuration,
+                  selectedIds: _selectedIds,
+                  onDeleteSelected: () => _deleteSelected(context),
+                  onShareSelected: (documents) =>
+                      unawaited(_shareSelected(context, documents)),
+                  onSearchTap: _openSearchOverlay,
+                  onAddDocumentTap: _openAddDocumentOverlay,
+                ),
               ],
             ),
           );

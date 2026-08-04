@@ -4,7 +4,6 @@ import 'package:liquid_glass_widgets/liquid_glass_widgets.dart';
 import 'package:signica/core/theme/themes.dart';
 import 'package:signica/features/main/presentation/widgets/signica_more_button.dart';
 
-/// Top glass chrome for multi-select: Select All / Deselect All + close.
 class SignicaMultiSelectTopBar extends StatelessWidget {
   const SignicaMultiSelectTopBar({
     required this.selectedCount,

@@ -12,10 +12,11 @@ import 'package:pdf/pdf.dart' show PdfPageFormat;
 import 'package:pdf/widgets.dart' as pw;
 import 'package:pdfrx/pdfrx.dart';
 import 'package:signica/features/main/domain/entities/document.dart';
+import 'package:signica/features/main/domain/services/document_acquisition.dart';
 import 'package:uuid/uuid.dart';
 
-@lazySingleton
-class DocumentAcquisitionService {
+@LazySingleton(as: DocumentAcquisition)
+class DocumentAcquisitionService implements DocumentAcquisition {
   DocumentAcquisitionService();
 
   final Uuid _uuid = const Uuid();
@@ -23,6 +24,7 @@ class DocumentAcquisitionService {
 
   static const int _previewWidth = 480;
 
+  @override
   Future<Document?> pickPdfFile() async {
     final result = await FilePicker.pickFiles(
       type: FileType.custom,
@@ -42,6 +44,7 @@ class DocumentAcquisitionService {
     );
   }
 
+  @override
   Future<Document?> pickPhotos() async {
     final images = await _imagePicker.pickMultiImage();
     if (images.isEmpty) {
@@ -53,6 +56,7 @@ class DocumentAcquisitionService {
     );
   }
 
+  @override
   Future<Document?> scanDocument() async {
     final images = await CunningDocumentScanner.getPictures();
     if (images == null || images.isEmpty) {
