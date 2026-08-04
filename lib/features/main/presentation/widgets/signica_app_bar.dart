@@ -13,6 +13,7 @@ class SignicaAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: Palette.appBarColor,
+      toolbarHeight: 120,
       elevation: 0,
       scrolledUnderElevation: 0,
       centerTitle: false,

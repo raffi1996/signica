@@ -6,6 +6,7 @@ import 'package:signica/core/theme/themes.dart';
 import 'package:signica/features/main/presentation/bloc/main_bloc.dart';
 import 'package:signica/features/main/presentation/widgets/signica_app_bar.dart';
 import 'package:signica/features/main/presentation/widgets/signica_more_button.dart';
+import 'package:signica/features/main/presentation/widgets/signica_rounded_body.dart';
 
 @RoutePage()
 class MainScreen extends StatelessWidget {
@@ -19,14 +20,17 @@ class MainScreen extends StatelessWidget {
         clipBehavior: Clip.none,
         children: [
           Scaffold(
+            backgroundColor: Palette.appBarColor,
             appBar: const SignicaAppBar(),
-            body: BlocBuilder<MainBloc, MainState>(
-              builder: (context, state) {
-                if (state.status.isLoading) {
-                  return const Center(child: CircularProgressIndicator());
-                }
-                return const Center(child: Text('Main'));
-              },
+            body: SignicaRoundedBody(
+              child: BlocBuilder<MainBloc, MainState>(
+                builder: (context, state) {
+                  if (state.status.isLoading) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                  return const Center(child: Text('Main'));
+                },
+              ),
             ),
           ),
           Positioned(
