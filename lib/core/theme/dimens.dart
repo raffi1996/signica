@@ -48,5 +48,21 @@ const double moreButtonSize = 38;
 const double moreButtonAppBarActionWidth = moreButtonSize + marginSizeMedium;
 const double searchFabSize = 63;
 
+/// Multi-select top bar (Figma).
+const double multiSelectCloseButtonSize = 38;
+const double multiSelectSelectAllHeight = 38;
+const double multiSelectSelectAllRadius = 19;
+const double multiSelectSelectAllHorizontalPadding = 16;
+const double multiSelectTopBarHorizontalInset = marginSizeMedium;
+
+/// Multi-select bottom glass action buttons (Figma).
+const double multiSelectActionButtonSize = searchFabSize;
+const double multiSelectActionIconSize = 28;
+
+/// Document card selection indicator (Figma).
+const double documentSelectionIndicatorSize = 44;
+const double documentSelectionCheckSize = 22;
+const double documentSelectionBorderWidth = 1.5;
+
 double mainFabBottomInset(BuildContext context) =>
     marginSizeMedium + MediaQuery.paddingOf(context).bottom;

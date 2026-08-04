@@ -9,4 +9,6 @@ abstract class MainRepository {
   Future<Result<Document>> addDocument(Document document);
 
   Future<Result<Document>> toggleSigned(String id);
+
+  Future<Result<void>> deleteDocuments(List<String> ids);
 }

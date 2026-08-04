@@ -49,5 +49,28 @@ void main() {
         ),
       ],
     );
+
+    blocTest<MainBloc, MainState>(
+      'delete documents toggles processing flag',
+      setUp: () {
+        when(interactor.getDocuments).thenAnswer(
+          (_) async => Result.success(const <Document>[]),
+        );
+        when(() => interactor.deleteDocuments(any())).thenAnswer(
+          (_) async => Result.successVoid(),
+        );
+      },
+      build: () => MainBloc(interactor),
+      act: (bloc) => bloc.add(const MainDeleteDocumentsEvent(['a', 'b'])),
+      expect: () => const [
+        MainState(status: BlocStateStatus.loading),
+        MainState(status: BlocStateStatus.success),
+        MainState(status: BlocStateStatus.success, isProcessing: true),
+        MainState(status: BlocStateStatus.success),
+      ],
+      verify: (_) {
+        verify(() => interactor.deleteDocuments(['a', 'b'])).called(1);
+      },
+    );
   });
 }

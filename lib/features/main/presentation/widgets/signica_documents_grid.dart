@@ -7,11 +7,15 @@ class SignicaDocumentsGrid extends StatelessWidget {
   const SignicaDocumentsGrid({
     required this.documents,
     this.onDocumentTap,
+    this.selectionMode = false,
+    this.selectedIds = const {},
     super.key,
   });
 
   final List<Document> documents;
   final ValueChanged<Document>? onDocumentTap;
+  final bool selectionMode;
+  final Set<String> selectedIds;
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +41,8 @@ class SignicaDocumentsGrid extends StatelessWidget {
         final document = documents[index];
         return SignicaDocumentCard(
           document: document,
+          selectionMode: selectionMode,
+          isSelected: selectedIds.contains(document.id),
           onTap: () => onDocumentTap?.call(document),
         );
       },

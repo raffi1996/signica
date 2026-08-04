@@ -18,6 +18,9 @@ class Assets {
   static const String searchIcon = 'assets/icons/search_icon.png';
   static const String closeIcon = 'assets/icons/close_icon.png';
   static const String signatureIcon = 'assets/icons/signature_icon.png';
+  static const String deleteIcon = 'assets/icons/delete_icon.svg';
+  static const String shareIcon = 'assets/icons/share_icon.svg';
+  static const String checkIcon = 'assets/icons/check_icon.svg';
   static const String emptyStateDocument = 'assets/images/empty_state_document.png';
 }
 

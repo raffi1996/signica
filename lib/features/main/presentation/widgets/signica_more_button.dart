@@ -12,10 +12,12 @@ double moreButtonTopForToolbar(BuildContext context) {
 class SignicaMoreButton extends StatelessWidget {
   const SignicaMoreButton({
     this.onAddDocumentTap,
+    this.onSelectTap,
     super.key,
   });
 
   final VoidCallback? onAddDocumentTap;
+  final VoidCallback? onSelectTap;
 
   double get size => moreButtonSize;
 
@@ -62,9 +64,7 @@ class SignicaMoreButton extends StatelessWidget {
           height: 37,
           iconSize: 24,
           titleStyle: menuTitleStyle,
-          onTap: () {
-            // TODO(signica): enter selection mode.
-          },
+          onTap: () => onSelectTap?.call(),
         ),
         GlassMenuItem(
           title: 'main.more_menu.add_document'.tr(),

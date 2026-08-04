@@ -58,3 +58,12 @@ final class MainSearchQueryChangedEvent extends MainEvent {
   @override
   List<Object?> get props => [query];
 }
+
+final class MainDeleteDocumentsEvent extends MainEvent {
+  const MainDeleteDocumentsEvent(this.ids);
+
+  final List<String> ids;
+
+  @override
+  List<Object?> get props => [ids];
+}

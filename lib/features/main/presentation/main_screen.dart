@@ -1,9 +1,14 @@
+import 'dart:io';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:signica/core/assets/assets.dart';
 import 'package:signica/core/di/app_di.dart';
 import 'package:signica/core/theme/themes.dart';
+import 'package:signica/features/main/domain/entities/document.dart';
 import 'package:signica/features/main/presentation/bloc/main_bloc.dart';
 import 'package:signica/features/main/presentation/widgets/signica_add_document_fab.dart';
 import 'package:signica/features/main/presentation/widgets/signica_add_document_overlay.dart';
@@ -12,6 +17,8 @@ import 'package:signica/features/main/presentation/widgets/signica_document_tab_
 import 'package:signica/features/main/presentation/widgets/signica_documents_grid.dart';
 import 'package:signica/features/main/presentation/widgets/signica_empty_documents_view.dart';
 import 'package:signica/features/main/presentation/widgets/signica_more_button.dart';
+import 'package:signica/features/main/presentation/widgets/signica_multi_select_action_button.dart';
+import 'package:signica/features/main/presentation/widgets/signica_multi_select_top_bar.dart';
 import 'package:signica/features/main/presentation/widgets/signica_rounded_body.dart';
 import 'package:signica/features/main/presentation/widgets/signica_search_fab.dart';
 import 'package:signica/features/main/presentation/widgets/signica_search_overlay.dart';
@@ -27,11 +34,15 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   bool _isAddDocumentOverlayVisible = false;
   bool _isSearchOverlayVisible = false;
+  bool _isSelectionMode = false;
+  final Set<String> _selectedIds = <String>{};
 
   Duration get fabTransitionDuration => const Duration(milliseconds: 220);
 
   bool get _areFabsHidden =>
-      _isAddDocumentOverlayVisible || _isSearchOverlayVisible;
+      _isAddDocumentOverlayVisible ||
+      _isSearchOverlayVisible ||
+      _isSelectionMode;
 
   void _openAddDocumentOverlay() {
     setState(() => _isAddDocumentOverlayVisible = true);
@@ -49,6 +60,45 @@ class _MainScreenState extends State<MainScreen> {
     setState(() => _isSearchOverlayVisible = false);
   }
 
+  void _enterSelectionMode() {
+    setState(() {
+      _isSelectionMode = true;
+      _selectedIds.clear();
+      _isAddDocumentOverlayVisible = false;
+      _isSearchOverlayVisible = false;
+    });
+  }
+
+  void _exitSelectionMode() {
+    setState(() {
+      _isSelectionMode = false;
+      _selectedIds.clear();
+    });
+  }
+
+  void _toggleDocumentSelection(Document document) {
+    setState(() {
+      if (_selectedIds.contains(document.id)) {
+        _selectedIds.remove(document.id);
+      } else {
+        _selectedIds.add(document.id);
+      }
+    });
+  }
+
+  void _onSelectAllTap(List<Document> visibleDocuments) {
+    setState(() {
+      final visibleIds = visibleDocuments.map((d) => d.id).toSet();
+      final allSelected =
+          visibleIds.isNotEmpty && visibleIds.every(_selectedIds.contains);
+      if (allSelected) {
+        _selectedIds.removeAll(visibleIds);
+      } else {
+        _selectedIds.addAll(visibleIds);
+      }
+    });
+  }
+
   void _addFromFiles(BuildContext context) {
     context.read<MainBloc>().add(const MainAddFromFilesEvent());
   }
@@ -59,6 +109,85 @@ class _MainScreenState extends State<MainScreen> {
 
   void _addFromScanner(BuildContext context) {
     context.read<MainBloc>().add(const MainAddFromScannerEvent());
+  }
+
+  Future<void> _confirmAndDelete(BuildContext context) async {
+    if (_selectedIds.isEmpty) {
+      return;
+    }
+
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) {
+        return AlertDialog(
+          title: Text('main.multi_select.delete_confirm_title'.tr()),
+          content: Text('main.multi_select.delete_confirm_body'.tr()),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(dialogContext).pop(false),
+              child: Text('main.multi_select.delete_confirm_cancel'.tr()),
+            ),
+            TextButton(
+              onPressed: () => Navigator.of(dialogContext).pop(true),
+              style: TextButton.styleFrom(foregroundColor: Palette.coral),
+              child: Text('main.multi_select.delete_confirm_action'.tr()),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (confirmed != true || !context.mounted) {
+      return;
+    }
+
+    final ids = _selectedIds.toList(growable: false);
+    context.read<MainBloc>().add(MainDeleteDocumentsEvent(ids));
+    _exitSelectionMode();
+  }
+
+  Future<void> _shareSelected(
+    BuildContext context,
+    List<Document> documents,
+  ) async {
+    if (_selectedIds.isEmpty) {
+      return;
+    }
+
+    final selected = documents
+        .where((doc) => _selectedIds.contains(doc.id))
+        .toList(growable: false);
+
+    final files = <XFile>[];
+    for (final document in selected) {
+      final file = File(document.pdfPath);
+      if (await file.exists()) {
+        files.add(XFile(document.pdfPath, name: '${document.name}.pdf'));
+      }
+    }
+
+    if (!context.mounted) {
+      return;
+    }
+
+    if (files.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('main.multi_select.share_unavailable'.tr())),
+      );
+      return;
+    }
+
+    final box = context.findRenderObject() as RenderBox?;
+    final origin = box == null
+        ? null
+        : box.localToGlobal(Offset.zero) & box.size;
+
+    await SharePlus.instance.share(
+      ShareParams(
+        files: files,
+        sharePositionOrigin: origin,
+      ),
+    );
   }
 
   @override
@@ -111,9 +240,15 @@ class _MainScreenState extends State<MainScreen> {
                       Expanded(
                         child: BlocConsumer<MainBloc, MainState>(
                           listenWhen: (previous, current) =>
-                              previous.errorMessage != current.errorMessage &&
-                              current.errorMessage != null,
+                              (previous.errorMessage != current.errorMessage &&
+                                  current.errorMessage != null) ||
+                              (previous.documents.isNotEmpty &&
+                                  current.documents.isEmpty &&
+                                  _isSelectionMode),
                           listener: (context, state) {
+                            if (state.documents.isEmpty && _isSelectionMode) {
+                              _exitSelectionMode();
+                            }
                             final message = state.errorMessage;
                             if (message == null) {
                               return;
@@ -147,7 +282,13 @@ class _MainScreenState extends State<MainScreen> {
 
                             return SignicaDocumentsGrid(
                               documents: visible,
+                              selectionMode: _isSelectionMode,
+                              selectedIds: _selectedIds,
                               onDocumentTap: (document) {
+                                if (_isSelectionMode) {
+                                  _toggleDocumentSelection(document);
+                                  return;
+                                }
                                 context.read<MainBloc>().add(
                                   MainToggleSignedEvent(document.id),
                                 );
@@ -175,13 +316,43 @@ class _MainScreenState extends State<MainScreen> {
                   );
                 },
               ),
-              Positioned(
-                top: moreButtonTopForToolbar(context),
-                right: marginSizeMedium,
-                child: SignicaMoreButton(
-                  onAddDocumentTap: _openAddDocumentOverlay,
+              if (_isSelectionMode)
+                BlocBuilder<MainBloc, MainState>(
+                  builder: (context, state) {
+                    final visible = state.visibleDocuments;
+                    final visibleIds = visible.map((d) => d.id).toSet();
+                    final selectedVisibleCount = _selectedIds
+                        .where(visibleIds.contains)
+                        .length;
+                    final allSelected = visibleIds.isNotEmpty &&
+                        selectedVisibleCount == visibleIds.length;
+                    return SignicaMultiSelectTopBar(
+                      selectedCount: selectedVisibleCount,
+                      allSelected: allSelected,
+                      onSelectAllTap: () => _onSelectAllTap(visible),
+                      onCloseTap: _exitSelectionMode,
+                    );
+                  },
+                )
+              else
+                Positioned(
+                  top: moreButtonTopForToolbar(context),
+                  right: marginSizeMedium,
+                  child: SignicaMoreButton(
+                    onAddDocumentTap: _openAddDocumentOverlay,
+                    onSelectTap: () {
+                      final hasDocuments = context
+                          .read<MainBloc>()
+                          .state
+                          .documents
+                          .isNotEmpty;
+                      if (!hasDocuments) {
+                        return;
+                      }
+                      _enterSelectionMode();
+                    },
+                  ),
                 ),
-              ),
               SignicaAddDocumentOverlay(
                 visible: _isAddDocumentOverlayVisible,
                 onDismissed: _onAddDocumentOverlayDismissed,
@@ -198,46 +369,85 @@ class _MainScreenState extends State<MainScreen> {
                   );
                 },
               ),
-              Positioned(
-                left: marginSizeMedium,
-                bottom: mainFabBottomInset(context),
-                child: IgnorePointer(
-                  ignoring: _areFabsHidden,
-                  child: AnimatedOpacity(
-                    opacity: _areFabsHidden ? 0 : 1,
-                    duration: fabTransitionDuration,
-                    curve: Curves.easeOutCubic,
-                    child: AnimatedScale(
-                      scale: _areFabsHidden ? 0.9 : 1,
+              if (_isSelectionMode) ...[
+                Positioned(
+                  left: marginSizeMedium,
+                  bottom: mainFabBottomInset(context),
+                  child: SignicaMultiSelectActionButton(
+                    enabled: _selectedIds.isNotEmpty,
+                    label: 'main.multi_select.delete'.tr(),
+                    onTap: () => _confirmAndDelete(context),
+                    icon: Assets.deleteIcon.svg(
+                      width: multiSelectActionIconSize,
+                      height: multiSelectActionIconSize,
+                      color: _selectedIds.isEmpty
+                          ? Palette.multiSelectActionDisabled
+                          : Palette.coral,
+                    ),
+                  ),
+                ),
+                Positioned(
+                  right: marginSizeMedium,
+                  bottom: mainFabBottomInset(context),
+                  child: BlocBuilder<MainBloc, MainState>(
+                    builder: (context, state) {
+                      return SignicaMultiSelectActionButton(
+                        enabled: _selectedIds.isNotEmpty,
+                        label: 'main.multi_select.share'.tr(),
+                        onTap: () => _shareSelected(context, state.documents),
+                        icon: Assets.shareIcon.svg(
+                          width: multiSelectActionIconSize,
+                          height: multiSelectActionIconSize,
+                          color: _selectedIds.isEmpty
+                              ? Palette.multiSelectActionDisabled
+                              : Palette.menuTextColor,
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ] else ...[
+                Positioned(
+                  left: marginSizeMedium,
+                  bottom: mainFabBottomInset(context),
+                  child: IgnorePointer(
+                    ignoring: _areFabsHidden,
+                    child: AnimatedOpacity(
+                      opacity: _areFabsHidden ? 0 : 1,
                       duration: fabTransitionDuration,
                       curve: Curves.easeOutCubic,
-                      child: SignicaSearchFab(
-                        onTap: _openSearchOverlay,
+                      child: AnimatedScale(
+                        scale: _areFabsHidden ? 0.9 : 1,
+                        duration: fabTransitionDuration,
+                        curve: Curves.easeOutCubic,
+                        child: SignicaSearchFab(
+                          onTap: _openSearchOverlay,
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-              Positioned(
-                right: marginSizeMedium,
-                bottom: mainFabBottomInset(context),
-                child: IgnorePointer(
-                  ignoring: _areFabsHidden,
-                  child: AnimatedOpacity(
-                    opacity: _areFabsHidden ? 0 : 1,
-                    duration: fabTransitionDuration,
-                    curve: Curves.easeOutCubic,
-                    child: AnimatedScale(
-                      scale: _areFabsHidden ? 0.9 : 1,
+                Positioned(
+                  right: marginSizeMedium,
+                  bottom: mainFabBottomInset(context),
+                  child: IgnorePointer(
+                    ignoring: _areFabsHidden,
+                    child: AnimatedOpacity(
+                      opacity: _areFabsHidden ? 0 : 1,
                       duration: fabTransitionDuration,
                       curve: Curves.easeOutCubic,
-                      child: SignicaAddDocumentFab(
-                        onTap: _openAddDocumentOverlay,
+                      child: AnimatedScale(
+                        scale: _areFabsHidden ? 0.9 : 1,
+                        duration: fabTransitionDuration,
+                        curve: Curves.easeOutCubic,
+                        child: SignicaAddDocumentFab(
+                          onTap: _openAddDocumentOverlay,
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
+              ],
             ],
           );
         },

@@ -67,4 +67,8 @@ class MainInteractorImpl implements MainInteractor {
   @override
   Future<Result<Document>> toggleSigned(String id) =>
       _mainRepository.toggleSigned(id);
+
+  @override
+  Future<Result<void>> deleteDocuments(List<String> ids) =>
+      _mainRepository.deleteDocuments(ids);
 }

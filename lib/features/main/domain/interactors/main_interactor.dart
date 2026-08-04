@@ -16,4 +16,6 @@ abstract class MainInteractor {
   Future<Result<Document?>> addFromScanner();
 
   Future<Result<Document>> toggleSigned(String id);
+
+  Future<Result<void>> deleteDocuments(List<String> ids);
 }

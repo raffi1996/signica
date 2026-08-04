@@ -23,6 +23,7 @@ class MainBloc extends Bloc<MainEvent, MainState> {
     on<MainToggleSignedEvent>(_onToggleSigned);
     on<MainTabSelectedEvent>(_onTabSelected);
     on<MainSearchQueryChangedEvent>(_onSearchQueryChanged);
+    on<MainDeleteDocumentsEvent>(_onDeleteDocuments);
     add(const MainInitEvent());
   }
 
@@ -136,6 +137,30 @@ class MainBloc extends Bloc<MainEvent, MainState> {
     Emitter<MainState> emit,
   ) {
     emit(state.copyWith(searchQuery: event.query));
+  }
+
+  Future<void> _onDeleteDocuments(
+    MainDeleteDocumentsEvent event,
+    Emitter<MainState> emit,
+  ) async {
+    if (event.ids.isEmpty) {
+      return;
+    }
+    emit(state.copyWith(isProcessing: true, clearErrorMessage: true));
+    final result = await _mainInteractor.deleteDocuments(event.ids);
+    result.fold(
+      success: (_) {
+        emit(state.copyWith(isProcessing: false));
+      },
+      error: (e, _) {
+        emit(
+          state.copyWith(
+            isProcessing: false,
+            errorMessage: e.toString(),
+          ),
+        );
+      },
+    );
   }
 
   @override

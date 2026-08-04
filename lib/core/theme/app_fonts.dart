@@ -65,4 +65,12 @@ class AppTextStyles {
     height: 1.2,
     letterSpacing: -0.08,
   );
+
+  static const multiSelectActionLabel = TextStyle(
+    fontFamily: FontFamily.inter,
+    fontWeight: FontWeight.w600,
+    fontSize: 15,
+    height: 1.2,
+    letterSpacing: -0.2,
+  );
 }

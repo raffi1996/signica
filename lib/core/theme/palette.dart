@@ -107,6 +107,14 @@ class Palette {
   static const deepGreen = Color(0xff07903e);
   static const lightGreen = Color(0xffcef2dc);
 
+  /// Multi-select selection indicator (Figma).
+  static const Color documentSelectionSelected = Color(0xFF87E64C);
+  static const Color documentSelectionUnselectedFill = Color(0x66FFFFFF);
+  static const Color documentSelectionUnselectedBorder = Color(0xE6FFFFFF);
+  static const Color multiSelectActionDisabled = Color(0x66333333);
+  static const Color multiSelectTopBarGlass = Color(0x33FFFFFF);
+  static const Color multiSelectTopBarText = Color(0xFFFFFFFF);
+
   static const lightPurple = Color(0xffe7dcf7);
   static const purple = Color(0xff8a50dc);
 

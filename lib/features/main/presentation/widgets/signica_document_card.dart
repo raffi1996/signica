@@ -6,16 +6,21 @@ import 'package:intl/intl.dart';
 import 'package:signica/core/assets/assets.dart';
 import 'package:signica/core/theme/themes.dart';
 import 'package:signica/features/main/domain/entities/document.dart';
+import 'package:signica/features/main/presentation/widgets/document_selection_overlay.dart';
 
 class SignicaDocumentCard extends StatelessWidget {
   const SignicaDocumentCard({
     required this.document,
     this.onTap,
+    this.selectionMode = false,
+    this.isSelected = false,
     super.key,
   });
 
   final Document document;
   final VoidCallback? onTap;
+  final bool selectionMode;
+  final bool isSelected;
 
   static final _dateFormat = DateFormat('dd.MM.yyyy', 'en');
 
@@ -67,7 +72,11 @@ class SignicaDocumentCard extends StatelessWidget {
             height: stackHeight,
             width: double.infinity,
             child: Center(
-              child: _DocumentStack(document: document),
+              child: _DocumentStack(
+                document: document,
+                selectionMode: selectionMode,
+                isSelected: isSelected,
+              ),
             ),
           ),
           const SizedBox(height: previewTitleSpacing),
@@ -95,9 +104,15 @@ class SignicaDocumentCard extends StatelessWidget {
 }
 
 class _DocumentStack extends StatelessWidget {
-  const _DocumentStack({required this.document});
+  const _DocumentStack({
+    required this.document,
+    required this.selectionMode,
+    required this.isSelected,
+  });
 
   final Document document;
+  final bool selectionMode;
+  final bool isSelected;
 
   static double _rad(double deg) => deg * math.pi / 180;
 
@@ -145,6 +160,8 @@ class _DocumentStack extends StatelessWidget {
               bottom: 8,
               child: _SignedBadge(),
             ),
+          if (selectionMode)
+            DocumentSelectionOverlay(isSelected: isSelected),
         ],
       ),
     );
