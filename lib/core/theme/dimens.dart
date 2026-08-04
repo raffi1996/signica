@@ -11,6 +11,8 @@ const double appBarToolbarHeight = 66;
 const double appBarLogoTopSpacing =
     appBarToolbarHeight - appBarLogoHeight - marginSizeMedium;
 
+const double emptyStateImageTopSpacing = 66;
+
 const double paddingSizeSmall = 8;
 const double paddingSizeNormal = 12;
 const double paddingSizeMedium = 16;

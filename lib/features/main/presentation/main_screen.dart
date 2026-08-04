@@ -5,6 +5,8 @@ import 'package:signica/core/di/app_di.dart';
 import 'package:signica/core/theme/themes.dart';
 import 'package:signica/features/main/presentation/bloc/main_bloc.dart';
 import 'package:signica/features/main/presentation/widgets/signica_app_bar.dart';
+import 'package:signica/features/main/presentation/widgets/signica_document_tab_bar.dart';
+import 'package:signica/features/main/presentation/widgets/signica_empty_documents_view.dart';
 import 'package:signica/features/main/presentation/widgets/signica_more_button.dart';
 import 'package:signica/features/main/presentation/widgets/signica_rounded_body.dart';
 
@@ -23,13 +25,29 @@ class MainScreen extends StatelessWidget {
             backgroundColor: Palette.appBarColor,
             appBar: const SignicaAppBar(),
             body: SignicaRoundedBody(
-              child: BlocBuilder<MainBloc, MainState>(
-                builder: (context, state) {
-                  if (state.status.isLoading) {
-                    return const Center(child: CircularProgressIndicator());
-                  }
-                  return const Center(child: Text('Main'));
-                },
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.fromLTRB(
+                      marginSizeMedium,
+                      marginSizeMedium,
+                      marginSizeMedium,
+                      0,
+                    ),
+                    child: SignicaDocumentTabBar(),
+                  ),
+                  Expanded(
+                    child: BlocBuilder<MainBloc, MainState>(
+                      builder: (context, state) {
+                        if (state.status.isLoading) {
+                          return const Center(child: CircularProgressIndicator());
+                        }
+                        return const SignicaEmptyDocumentsView();
+                      },
+                    ),
+                  ),
+                ],
               ),
             ),
           ),

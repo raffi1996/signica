@@ -77,13 +77,12 @@ flutter:
   assets:
     - assets/translations/
     - assets/icons/
-#
-#  fonts:
-#    - family: Rubik
-#      fonts:
-#        - asset: assets/fonts/Rubik-Regular.ttf
-#          weight: 400
-#        - asset: assets/fonts/Rubik-Medium.ttf
-#          weight: 500
-#        - asset: assets/fonts/Rubik-SemiBold.ttf
-#          weight: 600
+    - assets/images/
+
+  fonts:
+    - family: Inter
+      fonts:
+        - asset: assets/fonts/Inter-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Inter-Bold.ttf
+          weight: 700

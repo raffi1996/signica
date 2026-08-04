@@ -9,6 +9,19 @@ class Palette {
   static const Color white = Colors.white;
   static const Color menuGlassColor = Color(0x99F5F5F5);
   static const Color menuTextColor = Color(0xFF262626);
+  static const Color tabBarTrack = Color(0xFFE4E4E4);
+  static const Color tabBarDivider = Color(0xFFD4D4D4);
+  static const Color addDocumentSourceGradientStart = Color(0x33FFFFFF);
+  static const Color addDocumentSourceGradientEnd = Color(0x331D1D1D);
+
+  static const LinearGradient addDocumentSourceGradient = LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+    colors: [
+      addDocumentSourceGradientStart,
+      addDocumentSourceGradientEnd,
+    ],
+  );
 
 
   static const darkGray1 = Color(0xff1d1d1d);

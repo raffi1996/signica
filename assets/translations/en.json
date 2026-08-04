@@ -1,5 +1,17 @@
 {
   "main": {
+    "tabs": {
+      "all": "All",
+      "signed": "Signed",
+      "unsigned": "Unsigned"
+    },
+    "empty_state": {
+      "title": "No Documents Yet",
+      "subtitle": "You can add documents from",
+      "files": "Files",
+      "photos": "Photos",
+      "scanner": "Scanner"
+    },
     "more_menu": {
       "more_options": "More options",
       "select": "Select",
