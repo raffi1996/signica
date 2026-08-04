@@ -19,12 +19,42 @@ class SignicaDocumentCard extends StatelessWidget {
 
   static final _dateFormat = DateFormat('dd.MM.yyyy', 'en');
 
-  /// Portrait sheet size matching the mockup proportions.
-  static const double sheetWidth = 104;
-  static const double sheetHeight = 136;
-  static const double sheetRadius = 22;
+  // --- Figma: document preview sheet ---
+  static const double sheetWidth = 123.72;
+  static const double sheetHeight = 167.84;
+  static const double sheetRadius = 12;
+  static const double sheetBorderWidth = 1;
+  static const Color sheetBorderColor = Color(0x96DADADA); // #DADADA @ 59%
+  static const Offset sheetShadowOffset = Offset(0, 4);
+  static const double sheetShadowBlur = 11.1;
+  static const double sheetShadowSpread = 0;
+  static const Color sheetShadowColor = Color(0x14000000); // #000000 @ 8%
+
+  // --- Figma: multi-page stack (fan) ---
+  // Both back sheets rotate counter-clockwise; front tilts slightly clockwise.
+  static const double backSheetAngleDeg = -6;
+  static const double middleSheetAngleDeg = -3;
+  static const double frontSheetAngleDeg = 3;
+  static const Offset backSheetOffset = Offset(-4, 0);
+  static const Offset middleSheetOffset = Offset(-1.5, 0);
+
+  /// Bounding box for the sheet stack (rotation + shadow + fan offsets).
+  static const double stackWidth = 152;
+  static const double stackHeight = 192;
+
+  // --- Figma: typography spacing ---
+  static const double previewTitleSpacing = 12;
+  static const double titleDateSpacing = 2;
+  static const Color documentDateColor = Color(0xFF999999);
+
   static const double signatureSize = 42;
-  static const double stackHeight = 168;
+
+  /// Card height used by the documents grid aspect ratio.
+  static const double cardContentHeight = stackHeight +
+      previewTitleSpacing +
+      40 + // title: 2 lines × 16 × 1.25
+      titleDateSpacing +
+      16; // date: 13 × 1.2
 
   @override
   Widget build(BuildContext context) {
@@ -40,22 +70,22 @@ class SignicaDocumentCard extends StatelessWidget {
               child: _DocumentStack(document: document),
             ),
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: previewTitleSpacing),
           Text(
             document.name,
-            maxLines: 1,
+            maxLines: 2,
             overflow: TextOverflow.ellipsis,
             textAlign: TextAlign.center,
             style: AppTextStyles.documentTitle.copyWith(
               color: Palette.black,
             ),
           ),
-          const SizedBox(height: 2),
+          const SizedBox(height: titleDateSpacing),
           Text(
             _dateFormat.format(document.createdAt),
             textAlign: TextAlign.center,
             style: AppTextStyles.documentDate.copyWith(
-              color: const Color(0xFF8E8E93),
+              color: documentDateColor,
             ),
           ),
         ],
@@ -69,50 +99,50 @@ class _DocumentStack extends StatelessWidget {
 
   final Document document;
 
+  static double _rad(double deg) => deg * math.pi / 180;
+
   @override
   Widget build(BuildContext context) {
     final firstPath = document.firstPagePreviewPath;
     final lastPath = document.lastPagePreviewPath ?? firstPath;
 
     return SizedBox(
-      width: SignicaDocumentCard.sheetWidth + 36,
+      width: SignicaDocumentCard.stackWidth,
       height: SignicaDocumentCard.stackHeight,
       child: Stack(
         alignment: Alignment.center,
         clipBehavior: Clip.none,
         children: [
           if (document.isMultiPage) ...[
-            // Back sheet — ~10° counter-clockwise
             Transform.rotate(
-              angle: -10 * math.pi / 180,
+              angle: _rad(SignicaDocumentCard.backSheetAngleDeg),
               child: Transform.translate(
-                offset: const Offset(-6, 2),
+                offset: SignicaDocumentCard.backSheetOffset,
                 child: _Sheet(
                   imagePath: lastPath,
-                  opacity: 0.92,
+                  showShadow: false,
                 ),
               ),
             ),
-            // Middle sheet — ~5° counter-clockwise
             Transform.rotate(
-              angle: -5 * math.pi / 180,
+              angle: _rad(SignicaDocumentCard.middleSheetAngleDeg),
               child: Transform.translate(
-                offset: const Offset(4, 0),
+                offset: SignicaDocumentCard.middleSheetOffset,
                 child: _Sheet(
                   imagePath: lastPath,
-                  opacity: 0.96,
+                  showShadow: false,
                 ),
               ),
             ),
-          ],
-          // Front sheet — ~8° clockwise (or flat for single page)
-          Transform.rotate(
-            angle: document.isMultiPage ? 8 * math.pi / 180 : 0,
-            child: _Sheet(imagePath: firstPath),
-          ),
+            Transform.rotate(
+              angle: _rad(SignicaDocumentCard.frontSheetAngleDeg),
+              child: _Sheet(imagePath: firstPath),
+            ),
+          ] else
+            _Sheet(imagePath: firstPath),
           if (document.isSigned)
             const Positioned(
-              bottom: 4,
+              bottom: 8,
               child: _SignedBadge(),
             ),
         ],
@@ -124,48 +154,57 @@ class _DocumentStack extends StatelessWidget {
 class _Sheet extends StatelessWidget {
   const _Sheet({
     required this.imagePath,
-    this.opacity = 1,
+    this.showShadow = true,
   });
 
   final String imagePath;
-  final double opacity;
+  final bool showShadow;
 
   @override
   Widget build(BuildContext context) {
-    return Opacity(
-      opacity: opacity,
-      child: Container(
-        width: SignicaDocumentCard.sheetWidth,
-        height: SignicaDocumentCard.sheetHeight,
-        decoration: BoxDecoration(
-          color: Palette.white,
-          borderRadius: BorderRadius.circular(SignicaDocumentCard.sheetRadius),
-          boxShadow: const [
-            BoxShadow(
-              color: Color(0x1A000000),
-              blurRadius: 16,
-              offset: Offset(0, 6),
-            ),
-            BoxShadow(
-              color: Color(0x0F000000),
-              blurRadius: 4,
-              offset: Offset(0, 1),
-            ),
-          ],
+    return Container(
+      width: SignicaDocumentCard.sheetWidth,
+      height: SignicaDocumentCard.sheetHeight,
+      decoration: BoxDecoration(
+        color: Palette.white,
+        borderRadius: BorderRadius.circular(SignicaDocumentCard.sheetRadius),
+        border: Border.all(
+          color: SignicaDocumentCard.sheetBorderColor,
+          // ignore: avoid_redundant_argument_values — Figma: 1px
+          width: SignicaDocumentCard.sheetBorderWidth,
         ),
-        clipBehavior: Clip.antiAlias,
-        child: Image.file(
-          File(imagePath),
-          width: SignicaDocumentCard.sheetWidth,
-          height: SignicaDocumentCard.sheetHeight,
-          fit: BoxFit.cover,
-          errorBuilder: (_, _, _) => const ColoredBox(
-            color: Palette.white,
-            child: Center(
-              child: Icon(
-                Icons.insert_drive_file_outlined,
-                color: Palette.darkGray3,
-                size: 28,
+        boxShadow: showShadow
+            ? const [
+                BoxShadow(
+                  color: SignicaDocumentCard.sheetShadowColor,
+                  offset: SignicaDocumentCard.sheetShadowOffset,
+                  blurRadius: SignicaDocumentCard.sheetShadowBlur,
+                  // ignore: avoid_redundant_argument_values — Figma: 0
+                  spreadRadius: SignicaDocumentCard.sheetShadowSpread,
+                ),
+              ]
+            : null,
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(
+          SignicaDocumentCard.sheetRadius - SignicaDocumentCard.sheetBorderWidth,
+        ),
+        child: ColoredBox(
+          color: Palette.white,
+          child: Image.file(
+            File(imagePath),
+            width: SignicaDocumentCard.sheetWidth,
+            height: SignicaDocumentCard.sheetHeight,
+            fit: BoxFit.contain,
+            alignment: Alignment.topCenter,
+            errorBuilder: (_, _, _) => const ColoredBox(
+              color: Palette.white,
+              child: Center(
+                child: Icon(
+                  Icons.insert_drive_file_outlined,
+                  color: Palette.darkGray3,
+                  size: 28,
+                ),
               ),
             ),
           ),

@@ -28,7 +28,9 @@ class SignicaDocumentsGrid extends StatelessWidget {
         crossAxisCount: 2,
         mainAxisSpacing: marginSizeXLarge,
         crossAxisSpacing: marginSizeMedium,
-        childAspectRatio: 0.78,
+        // Cell width on 393pt: (393 - 16*2 - 16) / 2 = 172.5
+        // Card height from Figma sheet + typography spacing.
+        childAspectRatio: 172.5 / SignicaDocumentCard.cardContentHeight,
       ),
       itemCount: documents.length,
       itemBuilder: (context, index) {
