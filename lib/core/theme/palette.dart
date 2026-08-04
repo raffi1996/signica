@@ -7,6 +7,9 @@ class Palette {
   static const Color scaffoldBackground = Color(0xfff0f0f0);
   static const Color appBarColor = Color(0xFF242424);
   static const Color white = Colors.white;
+  static const Color menuGlassColor = Color(0x99F5F5F5);
+  static const Color menuTextColor = Color(0xFF262626);
+
 
   static const darkGray1 = Color(0xff1d1d1d);
   static const darkGray2 = Color(0xFF414141);
