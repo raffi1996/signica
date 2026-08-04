@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:liquid_glass_widgets/liquid_glass_widgets.dart';
 import 'package:signica/core/assets/assets.dart';
 import 'package:signica/core/theme/themes.dart';
+import 'package:signica/features/main/presentation/widgets/signica_more_button.dart';
 
 class SignicaAppBar extends StatelessWidget implements PreferredSizeWidget {
   const SignicaAppBar({
     super.key,
   });
-
 
   @override
   Widget build(BuildContext context) {
@@ -25,25 +24,8 @@ class SignicaAppBar extends StatelessWidget implements PreferredSizeWidget {
         statusBarBrightness: Brightness.dark,
       ),
       title: Assets.signicaLogo.svg(),
-      actionsPadding: const EdgeInsets.only(right: marginSizeMedium),
       actions: [
-        Center(
-          child: GlassButton(
-            width: 38,
-            height: 38,
-            settings: const LiquidGlassSettings(
-              blur: 4,
-              glassColor: Color(0x1AFFFFFF),
-              lightIntensity: 1.1,
-              fresnelStrength: 0,
-            ),
-            shape: const LiquidRoundedRectangle(
-              borderRadius: 15.2,
-            ),
-            onTap: () {},
-            icon: Assets.moreIcon.svg(),
-          )
-        )
+        SizedBox(width: SignicaMoreButton.appBarActionWidth),
       ],
     );
   }
