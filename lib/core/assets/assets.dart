@@ -20,6 +20,7 @@ class Assets {
   static const String signatureIcon = 'assets/icons/signature_icon.png';
   static const String deleteIcon = 'assets/icons/delete_icon.svg';
   static const String shareIcon = 'assets/icons/share_icon.svg';
+  static const String printIcon = 'assets/icons/print_icon.svg';
   static const String checkIcon = 'assets/icons/check_icon.svg';
   static const String selectionSelectedIcon =
       'assets/icons/selection_selected_icon.svg';

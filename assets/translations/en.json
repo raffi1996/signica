@@ -31,6 +31,13 @@
       "share": "Share",
       "close": "Close selection",
       "share_unavailable": "Selected documents are unavailable to share"
+    },
+    "document_actions": {
+      "print": "Print",
+      "share": "Share",
+      "delete": "Delete",
+      "share_unavailable": "Document is unavailable to share",
+      "print_unavailable": "Document is unavailable to print"
     }
   }
 }

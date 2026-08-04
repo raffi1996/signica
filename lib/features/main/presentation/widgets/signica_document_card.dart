@@ -12,6 +12,7 @@ class SignicaDocumentCard extends StatelessWidget {
   const SignicaDocumentCard({
     required this.document,
     this.onTap,
+    this.onLongPress,
     this.selectionMode = false,
     this.isSelected = false,
     super.key,
@@ -19,6 +20,7 @@ class SignicaDocumentCard extends StatelessWidget {
 
   final Document document;
   final VoidCallback? onTap;
+  final VoidCallback? onLongPress;
   final bool selectionMode;
   final bool isSelected;
 
@@ -65,6 +67,7 @@ class SignicaDocumentCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
+      onLongPress: onLongPress,
       behavior: HitTestBehavior.opaque,
       child: Column(
         children: [
