@@ -13,7 +13,7 @@ class SignicaAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: Palette.appBarColor,
-      toolbarHeight: 120,
+      toolbarHeight: appBarToolbarHeight,
       elevation: 0,
       scrolledUnderElevation: 0,
       centerTitle: false,
@@ -24,7 +24,13 @@ class SignicaAppBar extends StatelessWidget implements PreferredSizeWidget {
         statusBarIconBrightness: Brightness.light,
         statusBarBrightness: Brightness.dark,
       ),
-      title: Assets.signicaLogo.svg(),
+      title: Align(
+        alignment: Alignment.bottomLeft,
+        child: Padding(
+          padding: const EdgeInsets.only(bottom: marginSizeMedium),
+          child: Assets.signicaLogo.svg(height: appBarLogoHeight),
+        ),
+      ),
       actions: [
         SizedBox(width: SignicaMoreButton.appBarActionWidth),
       ],
@@ -32,5 +38,5 @@ class SignicaAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+  Size get preferredSize => const Size.fromHeight(appBarToolbarHeight);
 }

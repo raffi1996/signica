@@ -1,3 +1,6 @@
+const double appBarLogoHeight = 38;
+const double appBarToolbarHeight = appBarLogoHeight + marginSizeMedium;
+
 const double marginSizeSmall = 8;
 const double marginSizeNormal = 12;
 const double marginSizeMedium = 16;

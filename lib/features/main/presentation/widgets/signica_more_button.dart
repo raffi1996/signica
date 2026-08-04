@@ -11,7 +11,7 @@ class SignicaMoreButton extends StatelessWidget {
 
   static double topForToolbar(BuildContext context) {
     final topInset = MediaQuery.paddingOf(context).top;
-    return topInset + (kToolbarHeight - size) / 2;
+    return topInset + (appBarToolbarHeight - size) / 2;
   }
 
   static double get appBarActionWidth => size + marginSizeMedium;
