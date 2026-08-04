@@ -24,13 +24,7 @@ class SignicaAppBar extends StatelessWidget implements PreferredSizeWidget {
         statusBarIconBrightness: Brightness.light,
         statusBarBrightness: Brightness.dark,
       ),
-      title: Align(
-        alignment: Alignment.bottomLeft,
-        child: Padding(
-          padding: const EdgeInsets.only(bottom: marginSizeMedium),
-          child: Assets.signicaLogo.svg(height: appBarLogoHeight),
-        ),
-      ),
+      title: Assets.signicaLogo.svg(height: appBarLogoHeight),
       actions: [
         SizedBox(width: SignicaMoreButton.appBarActionWidth),
       ],
