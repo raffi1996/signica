@@ -88,7 +88,9 @@ class _MainScreenState extends State<MainScreen> {
           Positioned(
             top: moreButtonTopForToolbar(context),
             right: marginSizeMedium,
-            child: const SignicaMoreButton(),
+            child: SignicaMoreButton(
+              onAddDocumentTap: _openAddDocumentOverlay,
+            ),
           ),
           SignicaAddDocumentOverlay(
             visible: _isAddDocumentOverlayVisible,

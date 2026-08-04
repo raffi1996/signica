@@ -10,7 +10,12 @@ double moreButtonTopForToolbar(BuildContext context) {
 }
 
 class SignicaMoreButton extends StatelessWidget {
-  const SignicaMoreButton({super.key});
+  const SignicaMoreButton({
+    this.onAddDocumentTap,
+    super.key,
+  });
+
+  final VoidCallback? onAddDocumentTap;
 
   double get size => moreButtonSize;
 
@@ -67,9 +72,7 @@ class SignicaMoreButton extends StatelessWidget {
           height: 37,
           iconSize: 24,
           titleStyle: menuTitleStyle,
-          onTap: () {
-            // TODO(signica): add document flow.
-          },
+          onTap: () => onAddDocumentTap?.call(),
         ),
       ],
     );
