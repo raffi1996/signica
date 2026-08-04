@@ -19,6 +19,9 @@
     },
     "add_document_overlay": {
       "title": "Add Document From"
+    },
+    "search_overlay": {
+      "placeholder": "Search Documents"
     }
   }
 }

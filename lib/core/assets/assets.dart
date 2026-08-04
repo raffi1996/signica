@@ -16,6 +16,7 @@ class Assets {
   static const String photosIcon = 'assets/icons/photos_icon.png';
   static const String scannerIcon = 'assets/icons/scanner_icon.png';
   static const String searchIcon = 'assets/icons/search_icon.png';
+  static const String closeIcon = 'assets/icons/close_icon.png';
   static const String emptyStateDocument = 'assets/images/empty_state_document.png';
 }
 

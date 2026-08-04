@@ -41,4 +41,12 @@ class AppTextStyles {
     height: 1.3,
     letterSpacing: 0,
   );
+
+  static const searchFieldText = TextStyle(
+    fontFamily: FontFamily.inter,
+    fontWeight: FontWeight.w400,
+    fontSize: 16,
+    height: 1.25,
+    letterSpacing: 0,
+  );
 }

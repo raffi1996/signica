@@ -275,15 +275,16 @@ class _SignicaAddDocumentOverlayState extends State<SignicaAddDocumentOverlay>
                             stretch: 0.15,
                             label: 'Close',
                             onTap: _dismiss,
-                            child: const DecoratedBox(
-                              decoration: BoxDecoration(
+                            child: DecoratedBox(
+                              decoration: const BoxDecoration(
                                 shape: BoxShape.circle,
                                 gradient: Palette.closeIconGradient,
                               ),
-                              child: Icon(
-                                Icons.close,
-                                size: 24,
-                                color: Palette.menuTextColor,
+                              child: Center(
+                                child: Assets.closeIcon.png(
+                                  width: 24,
+                                  height: 24,
+                                ),
                               ),
                             ),
                           ),

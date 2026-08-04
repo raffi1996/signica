@@ -12,6 +12,7 @@ import 'package:signica/features/main/presentation/widgets/signica_empty_documen
 import 'package:signica/features/main/presentation/widgets/signica_more_button.dart';
 import 'package:signica/features/main/presentation/widgets/signica_rounded_body.dart';
 import 'package:signica/features/main/presentation/widgets/signica_search_fab.dart';
+import 'package:signica/features/main/presentation/widgets/signica_search_overlay.dart';
 
 @RoutePage()
 class MainScreen extends StatefulWidget {
@@ -23,8 +24,12 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   bool _isAddDocumentOverlayVisible = false;
+  bool _isSearchOverlayVisible = false;
 
   Duration get fabTransitionDuration => const Duration(milliseconds: 220);
+
+  bool get _areFabsHidden =>
+      _isAddDocumentOverlayVisible || _isSearchOverlayVisible;
 
   void _openAddDocumentOverlay() {
     setState(() => _isAddDocumentOverlayVisible = true);
@@ -32,6 +37,14 @@ class _MainScreenState extends State<MainScreen> {
 
   void _onAddDocumentOverlayDismissed() {
     setState(() => _isAddDocumentOverlayVisible = false);
+  }
+
+  void _openSearchOverlay() {
+    setState(() => _isSearchOverlayVisible = true);
+  }
+
+  void _onSearchOverlayDismissed() {
+    setState(() => _isSearchOverlayVisible = false);
   }
 
   @override
@@ -43,6 +56,7 @@ class _MainScreenState extends State<MainScreen> {
         children: [
           Scaffold(
             backgroundColor: Palette.appBarColor,
+            resizeToAvoidBottomInset: !_isSearchOverlayVisible,
             appBar: const SignicaAppBar(),
             body: SignicaRoundedBody(
               child: Column(
@@ -80,22 +94,41 @@ class _MainScreenState extends State<MainScreen> {
             visible: _isAddDocumentOverlayVisible,
             onDismissed: _onAddDocumentOverlayDismissed,
           ),
+          SignicaSearchOverlay(
+            visible: _isSearchOverlayVisible,
+            onDismissed: _onSearchOverlayDismissed,
+          ),
           Positioned(
             left: marginSizeMedium,
             bottom: mainFabBottomInset(context),
-            child: const SignicaSearchFab(),
+            child: IgnorePointer(
+              ignoring: _areFabsHidden,
+              child: AnimatedOpacity(
+                opacity: _areFabsHidden ? 0 : 1,
+                duration: fabTransitionDuration,
+                curve: Curves.easeOutCubic,
+                child: AnimatedScale(
+                  scale: _areFabsHidden ? 0.9 : 1,
+                  duration: fabTransitionDuration,
+                  curve: Curves.easeOutCubic,
+                  child: SignicaSearchFab(
+                    onTap: _openSearchOverlay,
+                  ),
+                ),
+              ),
+            ),
           ),
           Positioned(
             right: marginSizeMedium,
             bottom: mainFabBottomInset(context),
             child: IgnorePointer(
-              ignoring: _isAddDocumentOverlayVisible,
+              ignoring: _areFabsHidden,
               child: AnimatedOpacity(
-                opacity: _isAddDocumentOverlayVisible ? 0 : 1,
+                opacity: _areFabsHidden ? 0 : 1,
                 duration: fabTransitionDuration,
                 curve: Curves.easeOutCubic,
                 child: AnimatedScale(
-                  scale: _isAddDocumentOverlayVisible ? 0.9 : 1,
+                  scale: _areFabsHidden ? 0.9 : 1,
                   duration: fabTransitionDuration,
                   curve: Curves.easeOutCubic,
                   child: SignicaAddDocumentFab(
