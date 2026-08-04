@@ -5,8 +5,11 @@ import 'package:signica/core/theme/themes.dart';
 
 class SignicaAppBar extends StatelessWidget implements PreferredSizeWidget {
   const SignicaAppBar({
+    this.hideLogo = false,
     super.key,
   });
+
+  final bool hideLogo;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +26,9 @@ class SignicaAppBar extends StatelessWidget implements PreferredSizeWidget {
         statusBarIconBrightness: Brightness.light,
         statusBarBrightness: Brightness.dark,
       ),
-      title: Assets.signicaLogo.svg(height: appBarLogoHeight),
+      title: hideLogo
+          ? const SizedBox.shrink()
+          : Assets.signicaLogo.svg(height: appBarLogoHeight),
       actions: [
         SizedBox(width: moreButtonAppBarActionWidth),
       ],

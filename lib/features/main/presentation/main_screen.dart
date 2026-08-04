@@ -177,7 +177,7 @@ class _MainScreenState extends State<MainScreen> {
               Scaffold(
                 backgroundColor: Palette.appBarColor,
                 resizeToAvoidBottomInset: !_isSearchOverlayVisible,
-                appBar: const SignicaAppBar(),
+                appBar: SignicaAppBar(hideLogo: _isSelectionMode),
                 body: SignicaRoundedBody(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
