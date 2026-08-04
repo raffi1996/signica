@@ -1,6 +1,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <!-- Required by cunning_document_scanner (camera-based document scanning). -->
     <uses-permission android:name="android.permission.CAMERA"/>
+    <!-- Photo library access for image_picker on older Android versions. -->
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32"/>
 
     <application
         android:label="signica"

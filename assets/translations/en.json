@@ -22,6 +22,7 @@
     },
     "search_overlay": {
       "placeholder": "Search Documents"
-    }
+    },
+    "no_search_results": "No documents found"
   }
 }

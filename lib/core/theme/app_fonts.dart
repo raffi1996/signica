@@ -49,4 +49,20 @@ class AppTextStyles {
     height: 1.25,
     letterSpacing: 0,
   );
+
+  static const documentTitle = TextStyle(
+    fontFamily: FontFamily.inter,
+    fontWeight: FontWeight.w700,
+    fontSize: 16,
+    height: 1.25,
+    letterSpacing: -0.2,
+  );
+
+  static const documentDate = TextStyle(
+    fontFamily: FontFamily.inter,
+    fontWeight: FontWeight.w400,
+    fontSize: 13,
+    height: 1.2,
+    letterSpacing: -0.08,
+  );
 }

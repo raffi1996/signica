@@ -10,11 +10,13 @@ class SignicaSearchOverlay extends StatefulWidget {
   const SignicaSearchOverlay({
     required this.visible,
     required this.onDismissed,
+    this.onQueryChanged,
     super.key,
   });
 
   final bool visible;
   final VoidCallback onDismissed;
+  final ValueChanged<String>? onQueryChanged;
 
   @override
   State<SignicaSearchOverlay> createState() => _SignicaSearchOverlayState();
@@ -64,6 +66,7 @@ class _SignicaSearchOverlayState extends State<SignicaSearchOverlay>
     _focusNode = FocusNode();
     _focusNode.addListener(_onFocusChanged);
     _textController = TextEditingController();
+    _textController.addListener(_onQueryChanged);
     _controller = AnimationController(
       vsync: this,
       duration: animationDuration,
@@ -111,6 +114,10 @@ class _SignicaSearchOverlayState extends State<SignicaSearchOverlay>
     }
   }
 
+  void _onQueryChanged() {
+    widget.onQueryChanged?.call(_textController.text);
+  }
+
   Future<void> _close() async {
     if (_isClosing ||
         _controller.status == AnimationStatus.reverse ||
@@ -123,6 +130,7 @@ class _SignicaSearchOverlayState extends State<SignicaSearchOverlay>
       _focusNode.unfocus();
     }
     _textController.clear();
+    widget.onQueryChanged?.call('');
     await _controller.reverse();
     if (mounted) {
       widget.onDismissed();
@@ -132,6 +140,7 @@ class _SignicaSearchOverlayState extends State<SignicaSearchOverlay>
   @override
   void dispose() {
     _focusNode.removeListener(_onFocusChanged);
+    _textController.removeListener(_onQueryChanged);
     _controller.dispose();
     _focusNode.dispose();
     _textController.dispose();
