@@ -1,88 +1,52 @@
 import 'package:flutter/material.dart';
-import 'package:liquid_glass_widgets/liquid_glass_widgets.dart';
 
-double get marginSizeSmall => 8;
-double get marginSizeNormal => 12;
-double get marginSizeMedium => 16;
-double get marginSizeDefault => 20;
-double get marginSizeLarge => 24;
-double get marginSizeXLarge => 32;
-double get marginSizeXXLarge => 40;
+const double marginSizeSmall = 8;
+const double marginSizeNormal = 12;
+const double marginSizeMedium = 16;
+const double marginSizeDefault = 20;
+const double marginSizeLarge = 24;
+const double marginSizeXLarge = 32;
+const double marginSizeXXLarge = 40;
 
-double get appBarLogoHeight => 38;
-double get appBarToolbarHeight => 66;
-double get appBarLogoTopSpacing =>
+const double appBarLogoHeight = 38;
+const double appBarToolbarHeight = 66;
+const double appBarLogoTopSpacing =
     appBarToolbarHeight - appBarLogoHeight - marginSizeMedium;
 
-double get emptyStateImageTopSpacing => 66;
+const double emptyStateImageTopSpacing = 66;
 
-double get documentTabBarHeight => 36;
-double get documentTabBarInnerPadding => 4;
-double get documentTabBarDividerHeight => 28;
+const double paddingSizeSmall = 8;
+const double paddingSizeNormal = 12;
+const double paddingSizeMedium = 16;
+const double paddingSizeDefault = 20;
+const double paddingSizeLarge = 24;
+const double paddingSizeXLarge = 32;
+const double paddingSizeXLarge36 = 36;
+const double paddingSizeXXLarge = 40;
 
-double get addDocumentSourceButtonHeight => 56;
-double get addDocumentSourceButtonIconSize => 24;
-double get addDocumentSourceButtonBorderRadius => 100;
-EdgeInsets get addDocumentSourceButtonPadding =>
-    const EdgeInsets.symmetric(horizontal: 20, vertical: 16);
+const double radiusSizeSmall = 8;
+const double radiusSizeNormal = 12;
+const double radiusSizeMedium = 16;
+const double radiusSizeDefault = 20;
+const double radiusSizeLarge = 24;
+const double radiusSizeXLarge = 32;
+const double radiusSizeXXLarge = 40;
 
-LiquidGlassSettings get addDocumentSourceGlassSettings =>
-    const LiquidGlassSettings(
-      blur: 4,
-      glassColor: Color(0x00000000),
-      lightIntensity: 1.1,
-      fresnelStrength: 0,
-    );
+const double fontSizeMicro = 12;
+const double fontSizeSmall = 14;
+const double fontSizeMedium = 16;
+const double fontSizeLarge = 20;
+const double fontSizeXLarge = 32;
+const double fontSizeXXLarge = 45;
+const double fontSizeXXXLarge = 56;
 
-double get moreButtonSize => 38;
-double get moreButtonAppBarActionWidth => moreButtonSize + marginSizeMedium;
+const double touchSizeMedium = 48;
 
-double get searchFabSize => 63;
-double get searchFabIconSize => 24;
+const double kDefaultBorderRadius = 0;
 
-double get addDocumentFabHeight => 52;
-double get addDocumentFabIconSize => 24;
-double get addDocumentFabBorderRadius => 100;
-EdgeInsets get addDocumentFabPadding =>
-    const EdgeInsets.symmetric(horizontal: 16, vertical: 14);
-
-LiquidGlassSettings get searchFabGlassSettings => const LiquidGlassSettings(
-      blur: 4,
-      glassColor: Color(0x00000000),
-      lightIntensity: 1.1,
-      fresnelStrength: 0,
-    );
+const double moreButtonSize = 38;
+const double moreButtonAppBarActionWidth = moreButtonSize + marginSizeMedium;
+const double searchFabSize = 63;
 
 double mainFabBottomInset(BuildContext context) =>
     marginSizeMedium + MediaQuery.paddingOf(context).bottom;
-
-double get mainFabContentBottomSpacing => searchFabSize + marginSizeLarge;
-
-double get paddingSizeSmall => 8;
-double get paddingSizeNormal => 12;
-double get paddingSizeMedium => 16;
-double get paddingSizeDefault => 20;
-double get paddingSizeLarge => 24;
-double get paddingSizeXLarge => 32;
-double get paddingSizeXLarge36 => 36;
-double get paddingSizeXXLarge => 40;
-
-double get radiusSizeSmall => 8;
-double get radiusSizeNormal => 12;
-double get radiusSizeMedium => 16;
-double get radiusSizeDefault => 20;
-double get radiusSizeLarge => 24;
-double get radiusSizeXLarge => 32;
-double get radiusSizeXXLarge => 40;
-
-double get fontSizeMicro => 12;
-double get fontSizeSmall => 14;
-double get fontSizeMedium => 16;
-double get fontSizeLarge => 20;
-double get fontSizeXLarge => 32;
-double get fontSizeXXLarge => 45;
-double get fontSizeXXXLarge => 56;
-
-double get touchSizeMedium => 48;
-
-double get kDefaultBorderRadius => 0;

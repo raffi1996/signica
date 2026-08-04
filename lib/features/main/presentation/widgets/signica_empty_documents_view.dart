@@ -66,7 +66,7 @@ class SignicaEmptyDocumentsView extends StatelessWidget {
             label: 'main.empty_state.scanner'.tr(),
             onTap: onScannerTap,
           ),
-          SizedBox(height: mainFabContentBottomSpacing),
+          SizedBox(height: searchFabSize + marginSizeLarge),
         ],
       ),
     );

@@ -11,6 +11,12 @@ class SignicaAddDocumentFab extends StatelessWidget {
 
   final VoidCallback? onTap;
 
+  double get height => 52;
+  double get iconSize => 24;
+  double get borderRadius => 100;
+  EdgeInsets get contentPadding =>
+      const EdgeInsets.symmetric(horizontal: 16, vertical: 14);
+
   @override
   Widget build(BuildContext context) {
     final label = 'main.more_menu.add_document'.tr();
@@ -25,8 +31,8 @@ class SignicaAddDocumentFab extends StatelessWidget {
       maxLines: 1,
     )..layout();
 
-    final width = addDocumentFabPadding.horizontal +
-        addDocumentFabIconSize +
+    final width = contentPadding.horizontal +
+        iconSize +
         marginSizeSmall +
         textPainter.width;
 
@@ -34,12 +40,12 @@ class SignicaAddDocumentFab extends StatelessWidget {
       color: Colors.transparent,
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(addDocumentFabBorderRadius),
+        borderRadius: BorderRadius.circular(borderRadius),
         child: Ink(
           width: width,
-          height: addDocumentFabHeight,
+          height: height,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(addDocumentFabBorderRadius),
+            borderRadius: BorderRadius.circular(borderRadius),
             gradient: Palette.addDocumentFabGradient,
           ),
           child: Stack(
@@ -47,20 +53,19 @@ class SignicaAddDocumentFab extends StatelessWidget {
             children: [
               DecoratedBox(
                 decoration: BoxDecoration(
-                  borderRadius:
-                      BorderRadius.circular(addDocumentFabBorderRadius),
+                  borderRadius: BorderRadius.circular(borderRadius),
                   gradient: Palette.addDocumentFabGlassOverlay,
                 ),
               ),
               Padding(
-                padding: addDocumentFabPadding,
+                padding: contentPadding,
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Assets.addDocumentFabIcon.png(
-                      width: addDocumentFabIconSize,
-                      height: addDocumentFabIconSize,
+                      width: iconSize,
+                      height: iconSize,
                     ),
                     SizedBox(width: marginSizeSmall),
                     Text(label, style: labelStyle),

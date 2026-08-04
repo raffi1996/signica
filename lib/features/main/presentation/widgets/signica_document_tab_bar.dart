@@ -23,17 +23,20 @@ class SignicaDocumentTabBar extends StatelessWidget {
   final ValueChanged<SignicaDocumentTab>? onTabSelected;
   final Set<SignicaDocumentTab> disabledTabs;
 
+  double get height => 36;
+  double get innerPadding => 4;
+  double get dividerHeight => 28;
+
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        final tabWidth =
-            (constraints.maxWidth - documentTabBarInnerPadding * 2) / 3;
+        final tabWidth = (constraints.maxWidth - innerPadding * 2) / 3;
         final selectedIndex = selectedTab.index;
 
         return Container(
-          height: documentTabBarHeight,
-          padding: EdgeInsets.all(documentTabBarInnerPadding),
+          height: height,
+          padding: EdgeInsets.all(innerPadding),
           decoration: BoxDecoration(
             color: Palette.tabBarTrack,
             borderRadius: BorderRadius.circular(100),
@@ -51,8 +54,7 @@ class SignicaDocumentTabBar extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: Palette.white,
                     borderRadius: BorderRadius.circular(
-                      (documentTabBarHeight - documentTabBarInnerPadding * 2) /
-                          2,
+                      (height - innerPadding * 2) / 2,
                     ),
                     boxShadow: const [
                       BoxShadow(
@@ -85,7 +87,7 @@ class SignicaDocumentTabBar extends StatelessWidget {
                     color: Palette.tabBarDivider,
                     child: SizedBox(
                       width: 1,
-                      height: documentTabBarDividerHeight,
+                      height: dividerHeight,
                     ),
                   ),
                 ),

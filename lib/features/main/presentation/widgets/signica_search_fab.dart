@@ -14,14 +14,21 @@ class SignicaSearchFab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GlassButton.custom(
-      width: 63,
-      height: 63,
+      width: searchFabSize,
+      height: searchFabSize,
       useOwnLayer: true,
-      settings: searchFabGlassSettings,
+      settings: const LiquidGlassSettings(
+        blur: 4,
+        glassColor: Color(0x00000000),
+        lightIntensity: 1.1,
+        fresnelStrength: 0,
+      ),
       stretch: 0.15,
       label: 'Search',
       onTap: onTap ?? () {},
-      child: Assets.searchIcon.png(),
+      child: Center(
+        child: Assets.searchIcon.png(),
+      ),
     );
   }
 }

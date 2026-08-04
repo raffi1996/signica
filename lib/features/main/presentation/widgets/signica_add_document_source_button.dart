@@ -14,6 +14,18 @@ class SignicaAddDocumentSourceButton extends StatelessWidget {
   final String label;
   final VoidCallback? onTap;
 
+  double get height => 56;
+  double get iconSize => 24;
+  double get borderRadius => 100;
+  EdgeInsets get contentPadding =>
+      const EdgeInsets.symmetric(horizontal: 20, vertical: 16);
+  LiquidGlassSettings get glassSettings => const LiquidGlassSettings(
+        blur: 4,
+        glassColor: Color(0x00000000),
+        lightIntensity: 1.1,
+        fresnelStrength: 0,
+      );
+
   @override
   Widget build(BuildContext context) {
     final labelStyle = AppTextStyles.addDocumentSourceLabel.copyWith(
@@ -27,19 +39,17 @@ class SignicaAddDocumentSourceButton extends StatelessWidget {
       maxLines: 1,
     )..layout();
 
-    final width = addDocumentSourceButtonPadding.horizontal +
-        addDocumentSourceButtonIconSize +
+    final width = contentPadding.horizontal +
+        iconSize +
         marginSizeSmall +
         textPainter.width;
 
     return GlassButton.custom(
       width: width,
-      height: addDocumentSourceButtonHeight,
+      height: height,
       useOwnLayer: true,
-      settings: addDocumentSourceGlassSettings,
-      shape: LiquidRoundedRectangle(
-        borderRadius: addDocumentSourceButtonBorderRadius,
-      ),
+      settings: glassSettings,
+      shape: LiquidRoundedRectangle(borderRadius: borderRadius),
       stretch: 0.15,
       label: label,
       onTap: onTap ?? () {},
@@ -48,7 +58,7 @@ class SignicaAddDocumentSourceButton extends StatelessWidget {
           gradient: Palette.addDocumentSourceGradient,
         ),
         child: Padding(
-          padding: addDocumentSourceButtonPadding,
+          padding: contentPadding,
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [

@@ -30,14 +30,14 @@ class MainScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Padding(
+                  const Padding(
                     padding: EdgeInsets.fromLTRB(
                       marginSizeMedium,
                       marginSizeMedium,
                       marginSizeMedium,
                       0,
                     ),
-                    child: const SignicaDocumentTabBar(),
+                    child: SignicaDocumentTabBar(),
                   ),
                   Expanded(
                     child: BlocBuilder<MainBloc, MainState>(

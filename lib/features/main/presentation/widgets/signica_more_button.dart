@@ -12,6 +12,8 @@ double moreButtonTopForToolbar(BuildContext context) {
 class SignicaMoreButton extends StatelessWidget {
   const SignicaMoreButton({super.key});
 
+  double get size => moreButtonSize;
+
   @override
   Widget build(BuildContext context) {
     final menuTitleStyle = Theme.of(context).textTheme.titleSmall?.copyWith(
@@ -25,7 +27,7 @@ class SignicaMoreButton extends StatelessWidget {
       menuBorderRadius: 34,
       menuAlignment: GlassMenuAlignment.topRight,
       autoAdjustToScreen: true,
-      menuPadding: EdgeInsets.only(right: marginSizeMedium),
+      menuPadding: const EdgeInsets.only(right: marginSizeMedium),
       settings: const LiquidGlassSettings(
         blur: 4,
         glassColor: Palette.menuGlassColor,
@@ -34,8 +36,8 @@ class SignicaMoreButton extends StatelessWidget {
       ),
       triggerBuilder: (context, toggleMenu) {
         return GlassButton(
-          width: moreButtonSize,
-          height: moreButtonSize,
+          width: size,
+          height: size,
           settings: const LiquidGlassSettings(
             blur: 4,
             glassColor: Color(0x1AFFFFFF),
