@@ -57,7 +57,7 @@ const double multiSelectTopBarHorizontalInset = marginSizeMedium;
 
 /// Multi-select bottom glass action buttons (Figma).
 const double multiSelectActionButtonSize = searchFabSize;
-const double multiSelectActionIconSize = 28;
+const double multiSelectActionIconSize = 34;
 
 /// Document card selection indicator (Figma).
 const double documentSelectionIndicatorSize = 44;
