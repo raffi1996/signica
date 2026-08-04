@@ -23,6 +23,9 @@
     "search_overlay": {
       "placeholder": "Search Documents"
     },
+    "document_names": {
+      "new_document": "New Document"
+    },
     "no_search_results": "No documents found",
     "multi_select": {
       "select_all": "Select All",

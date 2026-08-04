@@ -86,6 +86,8 @@ class _SignicaSearchOverlayState extends State<SignicaSearchOverlay>
     super.didUpdateWidget(oldWidget);
     if (widget.visible && !oldWidget.visible) {
       _open();
+    } else if (!widget.visible && oldWidget.visible) {
+      unawaited(_close());
     }
   }
 

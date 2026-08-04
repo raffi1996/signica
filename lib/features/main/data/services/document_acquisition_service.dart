@@ -2,10 +2,10 @@ import 'dart:io';
 import 'dart:ui' as ui;
 
 import 'package:cunning_document_scanner/cunning_document_scanner.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:injectable/injectable.dart';
-import 'package:intl/intl.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart' show PdfPageFormat;
@@ -217,7 +217,6 @@ class DocumentAcquisitionService {
   }
 
   String _defaultDocumentName() {
-    final stamp = DateFormat('dd.MM.yyyy', 'en').format(DateTime.now());
-    return 'Document $stamp';
+    return 'main.document_names.new_document'.tr();
   }
 }
