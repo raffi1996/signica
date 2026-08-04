@@ -30,10 +30,6 @@
       "delete": "Delete",
       "share": "Share",
       "close": "Close selection",
-      "delete_confirm_title": "Delete documents?",
-      "delete_confirm_body": "Selected documents will be permanently deleted.",
-      "delete_confirm_cancel": "Cancel",
-      "delete_confirm_action": "Delete",
       "share_unavailable": "Selected documents are unavailable to share"
     }
   }

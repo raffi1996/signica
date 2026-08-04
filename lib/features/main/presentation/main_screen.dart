@@ -111,33 +111,8 @@ class _MainScreenState extends State<MainScreen> {
     context.read<MainBloc>().add(const MainAddFromScannerEvent());
   }
 
-  Future<void> _confirmAndDelete(BuildContext context) async {
+  void _deleteSelected(BuildContext context) {
     if (_selectedIds.isEmpty) {
-      return;
-    }
-
-    final confirmed = await showDialog<bool>(
-      context: context,
-      builder: (dialogContext) {
-        return AlertDialog(
-          title: Text('main.multi_select.delete_confirm_title'.tr()),
-          content: Text('main.multi_select.delete_confirm_body'.tr()),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(dialogContext).pop(false),
-              child: Text('main.multi_select.delete_confirm_cancel'.tr()),
-            ),
-            TextButton(
-              onPressed: () => Navigator.of(dialogContext).pop(true),
-              style: TextButton.styleFrom(foregroundColor: Palette.coral),
-              child: Text('main.multi_select.delete_confirm_action'.tr()),
-            ),
-          ],
-        );
-      },
-    );
-
-    if (confirmed != true || !context.mounted) {
       return;
     }
 
@@ -376,7 +351,7 @@ class _MainScreenState extends State<MainScreen> {
                   child: SignicaMultiSelectActionButton(
                     enabled: _selectedIds.isNotEmpty,
                     label: 'main.multi_select.delete'.tr(),
-                    onTap: () => _confirmAndDelete(context),
+                    onTap: () => _deleteSelected(context),
                     icon: Assets.deleteIcon.svg(
                       width: multiSelectActionIconSize,
                       height: multiSelectActionIconSize,
