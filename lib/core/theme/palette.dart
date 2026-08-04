@@ -21,7 +21,6 @@ class Palette {
     colors: [
       Color(0xFFF0F0F0),
       Color(0xFFF7F7F7),
-      Color(0xFFFFFFFF),
     ],
     stops: [
       0.0,
@@ -30,6 +29,20 @@ class Palette {
     ],
   );
 
+  static const LinearGradient closeIconGradient = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      Color(0xFFF0F0F0),
+      Color(0xFFF7F7F7),
+      Color(0xFFFFFFFF),
+    ],
+    stops: [
+      0.0,
+      0.55,
+      1.0,
+    ],
+  );
   static const LinearGradient searchFabGradient = LinearGradient(
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,

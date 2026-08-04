@@ -49,6 +49,7 @@ class _SignicaAddDocumentOverlayState extends State<SignicaAddDocumentOverlay>
   TextStyle get titleStyle => AppTextStyles.emptyStateTitle.copyWith(
     color: Palette.menuTextColor,
     decoration: TextDecoration.none,
+    fontSize: 16,
   );
 
   @override
@@ -188,7 +189,7 @@ class _SignicaAddDocumentOverlayState extends State<SignicaAddDocumentOverlay>
               children: [
                 Positioned(
                   right: marginSizeMedium,
-                  bottom: bottomInset + closeFabSize + marginSizeLarge,
+                  bottom: bottomInset + closeFabSize + marginSizeNormal,
                   child: GestureDetector(
                     onTap: () {},
                     child: Column(
@@ -200,33 +201,33 @@ class _SignicaAddDocumentOverlayState extends State<SignicaAddDocumentOverlay>
                           child: SignicaAddDocumentSourceButton(
                             icon: Assets.filesIcon.png(width: 24, height: 24),
                             label: 'main.empty_state.files'.tr(),
-                            onTap: () {
+                            onTap: () async {
                               final callback = widget.onFilesTap;
-                              _dismiss().then((_) => callback?.call());
+                              await _dismiss().then((_) => callback?.call());
                             },
                           ),
                         ),
-                        SizedBox(height: marginSizeMedium),
+                        const SizedBox(height: marginSizeNormal),
                         _animatedEntry(
                           animation: photosAnimation,
                           child: SignicaAddDocumentSourceButton(
                             icon: Assets.photosIcon.png(width: 24, height: 24),
                             label: 'main.empty_state.photos'.tr(),
-                            onTap: () {
+                            onTap: () async {
                               final callback = widget.onPhotosTap;
-                              _dismiss().then((_) => callback?.call());
+                              await _dismiss().then((_) => callback?.call());
                             },
                           ),
                         ),
-                        SizedBox(height: marginSizeMedium),
+                        const SizedBox(height: marginSizeNormal),
                         _animatedEntry(
                           animation: scannerAnimation,
                           child: SignicaAddDocumentSourceButton(
                             icon: Assets.scannerIcon.png(width: 24, height: 24),
                             label: 'main.empty_state.scanner'.tr(),
-                            onTap: () {
+                            onTap: () async {
                               final callback = widget.onScannerTap;
-                              _dismiss().then((_) => callback?.call());
+                              await _dismiss().then((_) => callback?.call());
                             },
                           ),
                         ),
@@ -241,8 +242,9 @@ class _SignicaAddDocumentOverlayState extends State<SignicaAddDocumentOverlay>
                   child: GestureDetector(
                     onTap: () {},
                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        Expanded(
+                        Flexible(
                           child: _animatedEntry(
                             animation: titleAnimation,
                             slideOffset: 16,
@@ -253,6 +255,7 @@ class _SignicaAddDocumentOverlayState extends State<SignicaAddDocumentOverlay>
                             ),
                           ),
                         ),
+                        const SizedBox(width: 12,),
                         AnimatedBuilder(
                           animation: closeAnimation,
                           builder: (context, child) {
@@ -275,14 +278,12 @@ class _SignicaAddDocumentOverlayState extends State<SignicaAddDocumentOverlay>
                             child: const DecoratedBox(
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
-                                gradient: Palette.addDocumentSourceGradient,
+                                gradient: Palette.closeIconGradient,
                               ),
-                              child: Center(
-                                child: Icon(
-                                  Icons.close,
-                                  size: 24,
-                                  color: Palette.menuTextColor,
-                                ),
+                              child: Icon(
+                                Icons.close,
+                                size: 24,
+                                color: Palette.menuTextColor,
                               ),
                             ),
                           ),

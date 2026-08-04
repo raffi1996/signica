@@ -11,9 +11,12 @@ class SignicaAddDocumentFab extends StatelessWidget {
 
   final VoidCallback? onTap;
 
-  double get height => 52;
+  double get height => 61;
+
   double get iconSize => 24;
+
   double get borderRadius => 100;
+
   EdgeInsets get contentPadding =>
       const EdgeInsets.symmetric(horizontal: 16, vertical: 14);
 
@@ -31,7 +34,8 @@ class SignicaAddDocumentFab extends StatelessWidget {
       maxLines: 1,
     )..layout();
 
-    final width = contentPadding.horizontal +
+    final width =
+        contentPadding.horizontal +
         iconSize +
         marginSizeSmall +
         textPainter.width;
@@ -67,7 +71,7 @@ class SignicaAddDocumentFab extends StatelessWidget {
                       width: iconSize,
                       height: iconSize,
                     ),
-                    SizedBox(width: marginSizeSmall),
+                    const SizedBox(width: marginSizeSmall),
                     Text(label, style: labelStyle),
                   ],
                 ),

@@ -24,10 +24,11 @@ class SignicaAddDocumentSourceButton extends StatelessWidget {
       const EdgeInsets.symmetric(horizontal: 20, vertical: 16);
 
   LiquidGlassSettings get glassSettings => const LiquidGlassSettings(
+    thickness: 28,
     blur: 4,
-    glassColor: Color(0x00000000),
-    lightIntensity: 1.1,
-    fresnelStrength: 0,
+    glassColor: Color(0x20FFFFFF),
+    lightIntensity: 0.85,
+    fresnelStrength: 0.25,
   );
 
   @override
@@ -36,11 +37,14 @@ class SignicaAddDocumentSourceButton extends StatelessWidget {
       color: Palette.menuTextColor,
       decoration: TextDecoration.none,
     );
-    final textScaler = MediaQuery.textScalerOf(context);
+
     final textPainter = TextPainter(
-      text: TextSpan(text: label, style: labelStyle),
+      text: TextSpan(
+        text: label,
+        style: labelStyle,
+      ),
       textDirection: Directionality.of(context),
-      textScaler: textScaler,
+      textScaler: MediaQuery.textScalerOf(context),
       maxLines: 1,
     )..layout();
 
@@ -55,24 +59,57 @@ class SignicaAddDocumentSourceButton extends StatelessWidget {
       height: height,
       useOwnLayer: true,
       settings: glassSettings,
-      shape: LiquidRoundedRectangle(borderRadius: borderRadius),
+      shape: LiquidRoundedRectangle(
+        borderRadius: borderRadius,
+      ),
       stretch: 0.15,
       label: label,
       onTap: onTap ?? () {},
-      child: DecoratedBox(
-        decoration: const BoxDecoration(
-          gradient: Palette.addDocumentSourceGradient,
-        ),
-        child: Padding(
-          padding: contentPadding,
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              icon,
-              const SizedBox(width: marginSizeSmall),
-              Text(label, style: labelStyle),
-            ],
-          ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(borderRadius),
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            const Opacity(
+              opacity: 0.35,
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  gradient: Palette.addDocumentSourceGradient,
+                ),
+              ),
+            ),
+            DecoratedBox(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(borderRadius),
+                border: Border.all(
+                  color: const Color(0x35FFFFFF),
+                  width: 0.8,
+                ),
+                gradient: Palette.addDocumentSourceGradient,
+              ),
+            ),
+
+            Padding(
+              padding: contentPadding,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SizedBox(
+                    width: iconSize,
+                    height: iconSize,
+                    child: Center(child: icon),
+                  ),
+                  const SizedBox(width: marginSizeSmall),
+                  Text(
+                    label,
+                    maxLines: 1,
+                    overflow: TextOverflow.clip,
+                    style: labelStyle,
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );
