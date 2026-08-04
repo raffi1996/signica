@@ -13,6 +13,7 @@ class Palette {
   static const Color tabBarDivider = Color(0xFFD4D4D4);
   static const Color addDocumentSourceGradientStart = Color(0x33FFFFFF);
   static const Color addDocumentSourceGradientEnd = Color(0x331D1D1D);
+  static const Color addDocumentOverlayTint = Color(0x33FFFFFF);
 
   static const LinearGradient addDocumentSourceGradient = LinearGradient(
     begin: Alignment.topLeft,

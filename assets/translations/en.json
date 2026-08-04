@@ -16,6 +16,9 @@
       "more_options": "More options",
       "select": "Select",
       "add_document": "Add Document"
+    },
+    "add_document_overlay": {
+      "title": "Add Document From"
     }
   }
 }
