@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:signica/core/theme/themes.dart';
+import 'package:signica/core/assets/assets.dart';
 import 'package:signica/features/main/presentation/widgets/document_selection_overlay.dart';
 
+String? _assetName(SvgPicture svg) {
+  final loader = svg.bytesLoader;
+  if (loader is SvgAssetLoader) {
+    return loader.assetName;
+  }
+  return null;
+}
+
 void main() {
-  testWidgets('unselected overlay uses translucent fill without check', (
-    tester,
-  ) async {
+  testWidgets('unselected overlay shows empty circle icon', (tester) async {
     await tester.pumpWidget(
       const MaterialApp(
         home: Scaffold(
@@ -18,16 +24,11 @@ void main() {
       ),
     );
 
-    final decorated = tester.widget<DecoratedBox>(
-      find.byType(DecoratedBox),
-    );
-    final decoration = decorated.decoration as BoxDecoration;
-    expect(decoration.color, Palette.documentSelectionUnselectedFill);
-    expect(decoration.border, isNotNull);
-    expect(find.byType(SvgPicture), findsNothing);
+    final svg = tester.widget<SvgPicture>(find.byType(SvgPicture));
+    expect(_assetName(svg), Assets.selectionUnselectedIcon);
   });
 
-  testWidgets('selected overlay uses green fill and check icon', (tester) async {
+  testWidgets('selected overlay shows green check icon', (tester) async {
     await tester.pumpWidget(
       const MaterialApp(
         home: Scaffold(
@@ -38,11 +39,7 @@ void main() {
       ),
     );
 
-    final decorated = tester.widget<DecoratedBox>(
-      find.byType(DecoratedBox),
-    );
-    final decoration = decorated.decoration as BoxDecoration;
-    expect(decoration.color, Palette.documentSelectionSelected);
-    expect(find.byType(SvgPicture), findsOneWidget);
+    final svg = tester.widget<SvgPicture>(find.byType(SvgPicture));
+    expect(_assetName(svg), Assets.selectionSelectedIcon);
   });
 }

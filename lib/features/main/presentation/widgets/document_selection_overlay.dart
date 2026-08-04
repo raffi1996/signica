@@ -3,6 +3,9 @@ import 'package:signica/core/assets/assets.dart';
 import 'package:signica/core/theme/themes.dart';
 
 /// Centered selection indicator for document preview (Figma multi-select).
+///
+/// Unselected: empty circle icon.
+/// Selected: green check circle icon.
 class DocumentSelectionOverlay extends StatelessWidget {
   const DocumentSelectionOverlay({
     required this.isSelected,
@@ -13,39 +16,16 @@ class DocumentSelectionOverlay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final asset = isSelected
+        ? Assets.selectionSelectedIcon
+        : Assets.selectionUnselectedIcon;
+
     return SizedBox(
       width: documentSelectionIndicatorSize,
       height: documentSelectionIndicatorSize,
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: isSelected
-              ? Palette.documentSelectionSelected
-              : Palette.documentSelectionUnselectedFill,
-          border: isSelected
-              ? null
-              : Border.all(
-                  color: Palette.documentSelectionUnselectedBorder,
-                  width: documentSelectionBorderWidth,
-                ),
-          boxShadow: isSelected
-              ? const [
-                  BoxShadow(
-                    color: Color(0x29000000),
-                    blurRadius: 10,
-                    offset: Offset(0, 3),
-                  ),
-                ]
-              : null,
-        ),
-        child: isSelected
-            ? Center(
-                child: Assets.checkIcon.svg(
-                  width: documentSelectionCheckSize,
-                  height: documentSelectionCheckSize,
-                ),
-              )
-            : null,
+      child: asset.svg(
+        width: documentSelectionIndicatorSize,
+        height: documentSelectionIndicatorSize,
       ),
     );
   }

@@ -21,6 +21,10 @@ class Assets {
   static const String deleteIcon = 'assets/icons/delete_icon.svg';
   static const String shareIcon = 'assets/icons/share_icon.svg';
   static const String checkIcon = 'assets/icons/check_icon.svg';
+  static const String selectionUnselectedIcon =
+      'assets/icons/selection_unselected_icon.svg';
+  static const String selectionSelectedIcon =
+      'assets/icons/selection_selected_icon.svg';
   static const String emptyStateDocument = 'assets/images/empty_state_document.png';
 }
 

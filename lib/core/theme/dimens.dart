@@ -60,9 +60,7 @@ const double multiSelectActionButtonSize = searchFabSize;
 const double multiSelectActionIconSize = 34;
 
 /// Document card selection indicator (Figma).
-const double documentSelectionIndicatorSize = 44;
-const double documentSelectionCheckSize = 22;
-const double documentSelectionBorderWidth = 1.5;
+const double documentSelectionIndicatorSize = 42;
 
 double mainFabBottomInset(BuildContext context) =>
     marginSizeMedium + MediaQuery.paddingOf(context).bottom;
