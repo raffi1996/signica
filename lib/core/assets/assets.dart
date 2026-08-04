@@ -11,9 +11,11 @@ class Assets {
   static const String moreIcon = 'assets/icons/more_icon.svg';
   static const String selectMenuIcon = 'assets/icons/select_menu_icon.png';
   static const String addDocumentMenuIcon = 'assets/icons/add_document_menu_icon.png';
+  static const String addDocumentFabIcon = 'assets/icons/add_document_fab_icon.png';
   static const String filesIcon = 'assets/icons/files_icon.png';
   static const String photosIcon = 'assets/icons/photos_icon.png';
   static const String scannerIcon = 'assets/icons/scanner_icon.png';
+  static const String searchIcon = 'assets/icons/search_icon.png';
   static const String emptyStateDocument = 'assets/images/empty_state_document.png';
 }
 

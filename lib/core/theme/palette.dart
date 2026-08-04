@@ -29,6 +29,41 @@ class Palette {
     ],
   );
 
+  static const LinearGradient searchFabGradient = LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+    colors: [
+      addDocumentSourceGradientStart,
+      addDocumentSourceGradientEnd,
+    ],
+  );
+
+  static const LinearGradient addDocumentFabGradient = LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.topCenter,
+    colors: [
+      Color(0xFF87E64C),
+      Color(0xFFA1FF67),
+    ],
+  );
+
+  static const LinearGradient addDocumentFabGlassOverlay = LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.topCenter,
+    colors: [
+      Color(0x33E6E6E6),
+      Color(0x4D333333),
+      Color(0x33FFFFFF),
+      Color(0x4FFFFFFF),
+    ],
+    stops: [
+      0.0,
+      0.33,
+      0.66,
+      1.0,
+    ],
+  );
+
 
   static const darkGray1 = Color(0xff1d1d1d);
   static const darkGray2 = Color(0xFF414141);

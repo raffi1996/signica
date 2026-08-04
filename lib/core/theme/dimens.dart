@@ -37,6 +37,27 @@ LiquidGlassSettings get addDocumentSourceGlassSettings =>
 double get moreButtonSize => 38;
 double get moreButtonAppBarActionWidth => moreButtonSize + marginSizeMedium;
 
+double get searchFabSize => 63;
+double get searchFabIconSize => 24;
+
+double get addDocumentFabHeight => 52;
+double get addDocumentFabIconSize => 24;
+double get addDocumentFabBorderRadius => 100;
+EdgeInsets get addDocumentFabPadding =>
+    const EdgeInsets.symmetric(horizontal: 16, vertical: 14);
+
+LiquidGlassSettings get searchFabGlassSettings => const LiquidGlassSettings(
+      blur: 4,
+      glassColor: Color(0x00000000),
+      lightIntensity: 1.1,
+      fresnelStrength: 0,
+    );
+
+double mainFabBottomInset(BuildContext context) =>
+    marginSizeMedium + MediaQuery.paddingOf(context).bottom;
+
+double get mainFabContentBottomSpacing => searchFabSize + marginSizeLarge;
+
 double get paddingSizeSmall => 8;
 double get paddingSizeNormal => 12;
 double get paddingSizeMedium => 16;

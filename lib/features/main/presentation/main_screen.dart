@@ -4,11 +4,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:signica/core/di/app_di.dart';
 import 'package:signica/core/theme/themes.dart';
 import 'package:signica/features/main/presentation/bloc/main_bloc.dart';
+import 'package:signica/features/main/presentation/widgets/signica_add_document_fab.dart';
 import 'package:signica/features/main/presentation/widgets/signica_app_bar.dart';
 import 'package:signica/features/main/presentation/widgets/signica_document_tab_bar.dart';
 import 'package:signica/features/main/presentation/widgets/signica_empty_documents_view.dart';
 import 'package:signica/features/main/presentation/widgets/signica_more_button.dart';
 import 'package:signica/features/main/presentation/widgets/signica_rounded_body.dart';
+import 'package:signica/features/main/presentation/widgets/signica_search_fab.dart';
 
 @RoutePage()
 class MainScreen extends StatelessWidget {
@@ -55,6 +57,16 @@ class MainScreen extends StatelessWidget {
             top: moreButtonTopForToolbar(context),
             right: marginSizeMedium,
             child: const SignicaMoreButton(),
+          ),
+          Positioned(
+            left: marginSizeMedium,
+            bottom: mainFabBottomInset(context),
+            child: const SignicaSearchFab(),
+          ),
+          Positioned(
+            right: marginSizeMedium,
+            bottom: mainFabBottomInset(context),
+            child: const SignicaAddDocumentFab(),
           ),
         ],
       ),

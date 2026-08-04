@@ -43,7 +43,7 @@ class SignicaEmptyDocumentsView extends StatelessWidget {
               color: Palette.darkGray3,
             ),
           ),
-          const Spacer(flex: 3),
+          SizedBox(height: marginSizeMedium),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -66,7 +66,7 @@ class SignicaEmptyDocumentsView extends StatelessWidget {
             label: 'main.empty_state.scanner'.tr(),
             onTap: onScannerTap,
           ),
-          SizedBox(height: marginSizeLarge),
+          SizedBox(height: mainFabContentBottomSpacing),
         ],
       ),
     );
