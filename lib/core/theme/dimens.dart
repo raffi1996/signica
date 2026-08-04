@@ -61,10 +61,6 @@ const double multiSelectActionIconSize = 34;
 
 /// Document card selection indicator (Figma).
 const double documentSelectionIndicatorSize = 42;
-const Offset documentSelectionUnselectedShadowOffset = Offset(0, 1);
-const double documentSelectionUnselectedShadowBlur = 2;
-const double documentSelectionUnselectedShadowSpread = 0;
-const Color documentSelectionUnselectedShadowColor = Color(0x99000000); // #000000 @ 60%
 
 double mainFabBottomInset(BuildContext context) =>
     marginSizeMedium + MediaQuery.paddingOf(context).bottom;
