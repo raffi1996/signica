@@ -1,1 +1,9 @@
-{}
+{
+  "main": {
+    "more_menu": {
+      "more_options": "More options",
+      "select": "Select",
+      "add_document": "Add Document"
+    }
+  }
+}

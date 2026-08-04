@@ -9,6 +9,8 @@ class Assets {
 
   static const String signicaLogo = 'assets/icons/app_logo.svg';
   static const String moreIcon = 'assets/icons/more_icon.svg';
+  static const String selectMenuIcon = 'assets/icons/select_menu_icon.png';
+  static const String addDocumentMenuIcon = 'assets/icons/add_document_menu_icon.png';
 }
 
 extension AssetsHelper on String {
