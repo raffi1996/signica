@@ -18,72 +18,57 @@ class SignicaEmptyDocumentsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final buttonWidth =
-            (constraints.maxWidth - marginSizeMedium) / 2;
-
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: marginSizeMedium),
-          child: Column(
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: marginSizeMedium),
+      child: Column(
+        children: [
+          SizedBox(height: emptyStateImageTopSpacing),
+          Assets.emptyStateDocument.png(
+            width: 220,
+            fit: BoxFit.contain,
+          ),
+          SizedBox(height: marginSizeLarge),
+          Text(
+            'main.empty_state.title'.tr(),
+            textAlign: TextAlign.center,
+            style: AppTextStyles.emptyStateTitle.copyWith(
+              color: Palette.menuTextColor,
+            ),
+          ),
+          SizedBox(height: marginSizeSmall),
+          Text(
+            'main.empty_state.subtitle'.tr(),
+            textAlign: TextAlign.center,
+            style: AppTextStyles.emptyStateSubtitle.copyWith(
+              color: Palette.darkGray3,
+            ),
+          ),
+          const Spacer(flex: 3),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const SizedBox(height: emptyStateImageTopSpacing),
-              Assets.emptyStateDocument.png(
-                width: 220,
-                fit: BoxFit.contain,
+              SignicaAddDocumentSourceButton(
+                icon: Assets.filesIcon.png(width: 24, height: 24),
+                label: 'main.empty_state.files'.tr(),
+                onTap: onFilesTap,
               ),
-              const SizedBox(height: marginSizeLarge),
-              Text(
-                'main.empty_state.title'.tr(),
-                textAlign: TextAlign.center,
-                style: AppTextStyles.emptyStateTitle.copyWith(
-                  color: Palette.menuTextColor,
-                ),
+              SizedBox(width: marginSizeMedium),
+              SignicaAddDocumentSourceButton(
+                icon: Assets.photosIcon.png(width: 24, height: 24),
+                label: 'main.empty_state.photos'.tr(),
+                onTap: onPhotosTap,
               ),
-              const SizedBox(height: marginSizeSmall),
-              Text(
-                'main.empty_state.subtitle'.tr(),
-                textAlign: TextAlign.center,
-                style: AppTextStyles.emptyStateSubtitle.copyWith(
-                  color: Palette.darkGray3,
-                ),
-              ),
-              const Spacer(flex: 3),
-              Row(
-                children: [
-                  Expanded(
-                    child: SignicaAddDocumentSourceButton(
-                      icon: Assets.filesIcon.png(width: 24, height: 24),
-                      label: 'main.empty_state.files'.tr(),
-                      onTap: onFilesTap,
-                    ),
-                  ),
-                  const SizedBox(width: marginSizeMedium),
-                  Expanded(
-                    child: SignicaAddDocumentSourceButton(
-                      icon: Assets.photosIcon.png(width: 24, height: 24),
-                      label: 'main.empty_state.photos'.tr(),
-                      onTap: onPhotosTap,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: marginSizeMedium),
-              Align(
-                child: SizedBox(
-                  width: buttonWidth,
-                  child: SignicaAddDocumentSourceButton(
-                    icon: Assets.scannerIcon.png(width: 24, height: 24),
-                    label: 'main.empty_state.scanner'.tr(),
-                    onTap: onScannerTap,
-                  ),
-                ),
-              ),
-              const SizedBox(height: marginSizeLarge),
             ],
           ),
-        );
-      },
+          SizedBox(height: marginSizeMedium),
+          SignicaAddDocumentSourceButton(
+            icon: Assets.scannerIcon.png(width: 24, height: 24),
+            label: 'main.empty_state.scanner'.tr(),
+            onTap: onScannerTap,
+          ),
+          SizedBox(height: marginSizeLarge),
+        ],
+      ),
     );
   }
 }

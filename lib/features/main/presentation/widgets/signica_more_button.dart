@@ -4,17 +4,13 @@ import 'package:liquid_glass_widgets/liquid_glass_widgets.dart';
 import 'package:signica/core/assets/assets.dart';
 import 'package:signica/core/theme/themes.dart';
 
+double moreButtonTopForToolbar(BuildContext context) {
+  final topInset = MediaQuery.paddingOf(context).top;
+  return topInset + (appBarToolbarHeight - moreButtonSize) / 2;
+}
+
 class SignicaMoreButton extends StatelessWidget {
   const SignicaMoreButton({super.key});
-
-  static const double size = 38;
-
-  static double topForToolbar(BuildContext context) {
-    final topInset = MediaQuery.paddingOf(context).top;
-    return topInset + (appBarToolbarHeight - size) / 2;
-  }
-
-  static double get appBarActionWidth => size + marginSizeMedium;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +25,7 @@ class SignicaMoreButton extends StatelessWidget {
       menuBorderRadius: 34,
       menuAlignment: GlassMenuAlignment.topRight,
       autoAdjustToScreen: true,
-      menuPadding: const EdgeInsets.only(right: marginSizeMedium),
+      menuPadding: EdgeInsets.only(right: marginSizeMedium),
       settings: const LiquidGlassSettings(
         blur: 4,
         glassColor: Palette.menuGlassColor,
@@ -38,8 +34,8 @@ class SignicaMoreButton extends StatelessWidget {
       ),
       triggerBuilder: (context, toggleMenu) {
         return GlassButton(
-          width: size,
-          height: size,
+          width: moreButtonSize,
+          height: moreButtonSize,
           settings: const LiquidGlassSettings(
             blur: 4,
             glassColor: Color(0x1AFFFFFF),

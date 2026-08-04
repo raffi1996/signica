@@ -28,14 +28,14 @@ class MainScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  const Padding(
+                  Padding(
                     padding: EdgeInsets.fromLTRB(
                       marginSizeMedium,
                       marginSizeMedium,
                       marginSizeMedium,
                       0,
                     ),
-                    child: SignicaDocumentTabBar(),
+                    child: const SignicaDocumentTabBar(),
                   ),
                   Expanded(
                     child: BlocBuilder<MainBloc, MainState>(
@@ -52,7 +52,7 @@ class MainScreen extends StatelessWidget {
             ),
           ),
           Positioned(
-            top: SignicaMoreButton.topForToolbar(context),
+            top: moreButtonTopForToolbar(context),
             right: marginSizeMedium,
             child: const SignicaMoreButton(),
           ),

@@ -19,9 +19,6 @@ class SignicaDocumentTabBar extends StatelessWidget {
     },
   });
 
-  static const double height = 36;
-  static const double _innerPadding = 4;
-
   final SignicaDocumentTab selectedTab;
   final ValueChanged<SignicaDocumentTab>? onTabSelected;
   final Set<SignicaDocumentTab> disabledTabs;
@@ -30,12 +27,13 @@ class SignicaDocumentTabBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        final tabWidth = (constraints.maxWidth - _innerPadding * 2) / 3;
+        final tabWidth =
+            (constraints.maxWidth - documentTabBarInnerPadding * 2) / 3;
         final selectedIndex = selectedTab.index;
 
         return Container(
-          height: height,
-          padding: const EdgeInsets.all(_innerPadding),
+          height: documentTabBarHeight,
+          padding: EdgeInsets.all(documentTabBarInnerPadding),
           decoration: BoxDecoration(
             color: Palette.tabBarTrack,
             borderRadius: BorderRadius.circular(100),
@@ -53,7 +51,8 @@ class SignicaDocumentTabBar extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: Palette.white,
                     borderRadius: BorderRadius.circular(
-                      (height - _innerPadding * 2) / 2,
+                      (documentTabBarHeight - documentTabBarInnerPadding * 2) /
+                          2,
                     ),
                     boxShadow: const [
                       BoxShadow(
@@ -81,10 +80,13 @@ class SignicaDocumentTabBar extends StatelessWidget {
                 left: tabWidth * 2 - 0.5,
                 top: 0,
                 bottom: 0,
-                child: const Center(
+                child: Center(
                   child: ColoredBox(
                     color: Palette.tabBarDivider,
-                    child: SizedBox(width: 1, height: 28),
+                    child: SizedBox(
+                      width: 1,
+                      height: documentTabBarDividerHeight,
+                    ),
                   ),
                 ),
               ),

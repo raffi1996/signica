@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:signica/core/assets/assets.dart';
 import 'package:signica/core/theme/themes.dart';
-import 'package:signica/features/main/presentation/widgets/signica_more_button.dart';
 
 class SignicaAppBar extends StatelessWidget implements PreferredSizeWidget {
   const SignicaAppBar({
@@ -26,11 +25,11 @@ class SignicaAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
       title: Assets.signicaLogo.svg(height: appBarLogoHeight),
       actions: [
-        SizedBox(width: SignicaMoreButton.appBarActionWidth),
+        SizedBox(width: moreButtonAppBarActionWidth),
       ],
     );
   }
 
   @override
-  Size get preferredSize => const Size.fromHeight(appBarToolbarHeight);
+  Size get preferredSize => Size.fromHeight(appBarToolbarHeight);
 }

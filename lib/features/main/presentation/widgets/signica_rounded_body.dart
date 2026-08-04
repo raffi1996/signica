@@ -9,13 +9,11 @@ class SignicaRoundedBody extends StatelessWidget {
 
   final Widget child;
 
-  static const double topRadius = radiusSizeXLarge;
-
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
-      borderRadius: const BorderRadius.vertical(
-        top: Radius.circular(topRadius),
+      borderRadius: BorderRadius.vertical(
+        top: Radius.circular(radiusSizeXLarge),
       ),
       child: ColoredBox(
         color: Palette.scaffoldBackground,

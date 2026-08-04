@@ -15,11 +15,17 @@ class Palette {
   static const Color addDocumentSourceGradientEnd = Color(0x331D1D1D);
 
   static const LinearGradient addDocumentSourceGradient = LinearGradient(
-    begin: Alignment.topCenter,
-    end: Alignment.bottomCenter,
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
     colors: [
-      addDocumentSourceGradientStart,
-      addDocumentSourceGradientEnd,
+      Color(0xFFF0F0F0),
+      Color(0xFFF7F7F7),
+      Color(0xFFFFFFFF),
+    ],
+    stops: [
+      0.0,
+      0.55,
+      1.0,
     ],
   );
 

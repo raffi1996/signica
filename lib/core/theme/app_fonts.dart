@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 class FontFamily {
   FontFamily._();
 
-  static const rubik = 'Rubik';
-  static const inter = 'Inter';
+  static String get rubik => 'Rubik';
+  static String get inter => 'Inter';
 }
 
 class AppTextStyles {
   AppTextStyles._();
 
-  static const tabBarLabel = TextStyle(
+  static TextStyle get tabBarLabel => TextStyle(
     fontFamily: FontFamily.inter,
     fontWeight: FontWeight.w700,
     fontSize: 14,
@@ -18,7 +18,7 @@ class AppTextStyles {
     letterSpacing: -0.08,
   );
 
-  static const emptyStateTitle = TextStyle(
+  static TextStyle get emptyStateTitle => TextStyle(
     fontFamily: FontFamily.inter,
     fontWeight: FontWeight.w700,
     fontSize: 20,
@@ -26,7 +26,7 @@ class AppTextStyles {
     letterSpacing: 0,
   );
 
-  static const emptyStateSubtitle = TextStyle(
+  static TextStyle get emptyStateSubtitle => TextStyle(
     fontFamily: FontFamily.inter,
     fontWeight: FontWeight.w400,
     fontSize: 15,
@@ -34,7 +34,7 @@ class AppTextStyles {
     letterSpacing: 0,
   );
 
-  static const addDocumentSourceLabel = TextStyle(
+  static TextStyle get addDocumentSourceLabel => TextStyle(
     fontFamily: FontFamily.inter,
     fontWeight: FontWeight.w700,
     fontSize: 15,

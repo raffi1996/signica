@@ -14,54 +14,50 @@ class SignicaAddDocumentSourceButton extends StatelessWidget {
   final String label;
   final VoidCallback? onTap;
 
-  static const double height = 56;
-  static const double borderRadius = 100;
-  static const EdgeInsets contentPadding =
-      EdgeInsets.symmetric(horizontal: 20, vertical: 16);
-
-  static const LiquidGlassSettings glassSettings = LiquidGlassSettings(
-    blur: 4,
-    glassColor: Color(0x00000000),
-    lightIntensity: 1.1,
-    fresnelStrength: 0,
-  );
-
   @override
   Widget build(BuildContext context) {
+    final labelStyle = AppTextStyles.addDocumentSourceLabel.copyWith(
+      color: Palette.menuTextColor,
+    );
+    final textScaler = MediaQuery.textScalerOf(context);
+    final textPainter = TextPainter(
+      text: TextSpan(text: label, style: labelStyle),
+      textDirection: Directionality.of(context),
+      textScaler: textScaler,
+      maxLines: 1,
+    )..layout();
+
+    final width = addDocumentSourceButtonPadding.horizontal +
+        addDocumentSourceButtonIconSize +
+        marginSizeSmall +
+        textPainter.width;
+
     return GlassButton.custom(
-      height: height,
+      width: width,
+      height: addDocumentSourceButtonHeight,
       useOwnLayer: true,
-      settings: glassSettings,
-      shape: const LiquidRoundedRectangle(borderRadius: borderRadius),
+      settings: addDocumentSourceGlassSettings,
+      shape: LiquidRoundedRectangle(
+        borderRadius: addDocumentSourceButtonBorderRadius,
+      ),
       stretch: 0.15,
       label: label,
       onTap: onTap ?? () {},
-      child: Stack(
-        fit: StackFit.expand,
-        children: [
-          const DecoratedBox(
-            decoration: BoxDecoration(
-              gradient: Palette.addDocumentSourceGradient,
-            ),
+      child: DecoratedBox(
+        decoration: const BoxDecoration(
+          gradient: Palette.addDocumentSourceGradient,
+        ),
+        child: Padding(
+          padding: addDocumentSourceButtonPadding,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              icon,
+              SizedBox(width: marginSizeSmall),
+              Text(label, style: labelStyle),
+            ],
           ),
-          Padding(
-            padding: contentPadding,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                icon,
-                const SizedBox(width: marginSizeSmall),
-                Text(
-                  label,
-                  style: AppTextStyles.addDocumentSourceLabel.copyWith(
-                    color: Palette.menuTextColor,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }
